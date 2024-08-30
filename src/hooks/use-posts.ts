@@ -17,7 +17,7 @@ export const usePosts = ({ boardId }: UsePostsProps) => {
 
   // Get board id value from zustand
   const storeBoardId = posts[0] ? posts[0].board : ''
-
+  
   // Reset store on board change
   useEffect(() => {
     if (boardId !== storeBoardId) {

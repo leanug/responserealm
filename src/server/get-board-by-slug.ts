@@ -10,9 +10,7 @@ import { Board } from '@/types/board'
 export async function getBoardBySlug(slug: string): Promise<Board | null> {
   const url = `${ENV.BASE_URL}/${ENV.ENDPOINTS.BOARD.GET_BY_SLUG(slug)}`
   
-  const response = await fetch(url, {
-    method: 'GET'
-  })
+  const response = await fetch(url, {cache: 'no-store'})
   
   if (!response.ok) {
     return null

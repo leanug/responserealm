@@ -12,7 +12,7 @@ function PageHeader({children}: {children: ReactNode}) {
 
   return (
     <div className="
-      max-w-3xl w-full border items-center mx-auto bg-base-100 
+      w-full border items-center mx-auto bg-base-100 
       justify-between py-2 px-2.5 md:px-6 flex flex-row rounded-lg"
     >
       {children}

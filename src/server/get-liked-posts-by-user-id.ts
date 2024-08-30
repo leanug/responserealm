@@ -4,7 +4,7 @@ import { LikedPost } from "@/types/liked-post"
 
 export async function getLikedPostsByUserId(userId: string): Promise<LikedPost[] | null> {
   const url = `${ENV.BASE_URL}/${ENV.ENDPOINTS.LIKED_POST.GET_BY_USER_ID(userId)}`
-  const response = await fetch(url)
+  const response = await fetch(url, {cache: 'no-store'})
 
   if (!response.ok) {
     return null 

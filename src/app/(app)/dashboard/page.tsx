@@ -3,9 +3,9 @@
 import { redirect } from "next/navigation"
 
 import { auth } from "@/auth"
-import BoardsPageDashboard from "@/components/pages/boards-page-dashboard"
 import { getBoardsByUserId } from "@/server/get-boards-by-user-id"
 import { Board } from "@/types/board"
+import BoardsPageDashboard from "@/components/pages/boards-page-dashboard"
 
 export default async function BoardListPage() {
   const session = await auth()

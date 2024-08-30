@@ -69,7 +69,6 @@
 - **UI & Design:**
   - `@heroicons/react`
   - `@tailwindcss/typography`
-  - `react-toastify`
   - `daisyui`
   - `tailwindcss`
 
@@ -80,7 +79,6 @@
 
 - **State Management:**
   - `zustand`
-  - `uuid`
 
 ## Development 🏗️
 
