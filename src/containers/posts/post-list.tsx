@@ -1,14 +1,5 @@
 'use client'
 
-import { Suspense, useEffect } from "react"
-
-import { Post } from '@/types/post'
-import { LoadingIndicator } from '@/components'
-import { 
-  usePostFilterStore, 
-  usePostStore, 
-  useLikedPostsStore 
-} from '@/store'
 import PostHeader from '@/containers/posts/post-item/post-header'
 import PostStatus from '@/containers/posts/post-item/post-status'
 import PostActions from '@/containers/posts/post-item/post-actions'
@@ -17,6 +8,10 @@ import PostDescription from '@/containers/posts/post-item/post-description'
 import PostUpdatedAt from '@/containers/posts/post-item/post-updated'
 import PostItem from '@/containers/posts/post-item'
 import { LikedPost } from '@/types/liked-post'
+import { Post } from '@/types/post'
+import { usePostsManager, useLikedPostsManager } from "@/hooks"
+import { usePostFilterStore } from '@/store'
+import { postsFilter } from '@/utils'
 
 interface PostListProps {
   boardId: string | null
@@ -26,24 +21,15 @@ interface PostListProps {
 }
 
 const PostList: React.FC<PostListProps> = ({boardSlug, initPosts, indexLikedPosts}) => {
-  const {statusFilter} = usePostFilterStore()
-  const {posts, setPosts} = usePostStore()
-  const {setLikedPosts} = useLikedPostsStore()
+  const {posts} = usePostsManager(initPosts)
+  useLikedPostsManager(indexLikedPosts)
 
-  useEffect(() => {
-    setPosts(initPosts)
-    setLikedPosts(indexLikedPosts)
-  }, [initPosts, setPosts, setLikedPosts, indexLikedPosts])
+  const {statusFilter} = usePostFilterStore()
 
   // Filter posts based on the selected status filter
-  const filteredPosts = posts.filter((post) => {
-    if (statusFilter === 'All') return true;
-    return post.status === statusFilter;
-  })
+  const filteredPosts = postsFilter(posts, statusFilter)
   
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-
     <ul className="flex flex-col">
       {Array.isArray(filteredPosts) && filteredPosts?.map((item: Post) => {
         const {
@@ -55,12 +41,8 @@ const PostList: React.FC<PostListProps> = ({boardSlug, initPosts, indexLikedPost
           commentCount,
           updatedAt
         } = item
-        
         return (
-          <li 
-            className="w-full" 
-            key={item._id}
-          >
+          <li key={item._id}>
             <PostItem 
               header={<PostHeader name={name} />}
               description={<PostDescription description={description} />}
@@ -84,8 +66,6 @@ const PostList: React.FC<PostListProps> = ({boardSlug, initPosts, indexLikedPost
         )
       })}
     </ul>
-    </Suspense>
-
   )
 }
 

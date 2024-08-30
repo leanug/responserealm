@@ -50,6 +50,13 @@
 
    Navigate to `http://localhost:3000` to view the application.
 
+## Upcoming Updates
+  - **Server-Side Rendering:** Implementing server-side rendering for posts and comments to improve performance and SEO.
+  - **Design Improvements:** Enhancing the overall design for a better user experience.
+  - **Post Image Upload:** Adding functionality to upload images with posts.
+
+  Stay tuned for these updates and more!
+
 ## Scripts 🛠️
 
 - **Development:** `npm run dev` - Start the development server.
