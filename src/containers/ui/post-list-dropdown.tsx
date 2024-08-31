@@ -5,7 +5,6 @@ import { ENV } from '@/utils/constants'
 import { useNotificationStore } from '@/store/use-notification-store'
 import { 
   CheckBadgeIcon, 
-  ChevronDownIcon, 
   StarIcon, 
   XCircleIcon 
   } from '@heroicons/react/24/outline'
@@ -77,17 +76,10 @@ const PostListDropdown: React.FC<PostListDropdownProps> = ({
   return (
     <div className="relative inline-block text-left">
       <button 
-        className="btn btn-outline m-1"
+        className="btn btn-sm m-1 w-28"
         onClick={handleToggle}
       >
-        <div className="flex flex-row items-center gap-1.5 w-24">
-        {getIconForValue(selectedValue)}
         {selectedValue || 'open or close'}
-        </div>
-        
-        <span className="mx-0.5 text-base-300">|</span>
-        <ChevronDownIcon className="h-5 w-5" />
-
       </button>
       {isOpen && (
         <ul

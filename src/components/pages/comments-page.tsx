@@ -45,7 +45,7 @@ const CommentsPage = () => {
         <PageHeader>
           <div className="flex flex-row gap-3.5 items-center">
             <GoBackBtn />
-            <div className="breadcrumbs text-sm">
+            <div className="breadcrumbs text-sm hidden md:block">
               <ul>
                 <li>Posts</li>
                 <li>{post?.name}</li>
@@ -75,7 +75,7 @@ const CommentsPage = () => {
         <div className="p-6">
           <NewCommentForm postId={post?._id || ''} />
         </div>
-        <div className="border-t p-6">
+        <div className="border-t p-2.5 md:p-6">
           <h2 className="font-semibold mb-4">Recent comments</h2>
           <CommentList postId={post?._id || ''} />
         </div>

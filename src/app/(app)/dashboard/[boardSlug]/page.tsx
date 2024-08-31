@@ -1,13 +1,13 @@
 import { redirect } from "next/navigation"
 
-import { getBoardBySlug } from "@/server/get-board-by-slug"
-import { auth } from "@/auth"
 import PostListDashboard from "@/containers/posts/post-list-dashboard"
 import ContentWrapper from "@/components/layout/content-wrapper"
 import PublicLink from "@/containers/dashboard/board/board-public-link"
 import PageHeader from "@/containers/layout/page-header"
 import DeleteBoardBtn from "@/containers/ui/delete-board-btn"
 import GoBackBtn from "@/components/ui/buttons/go-back"
+import { getBoardBySlug } from "@/server/get-board-by-slug"
+import { auth } from "@/auth"
 
 interface Params {
   boardSlug: string

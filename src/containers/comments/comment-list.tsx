@@ -14,7 +14,7 @@ const CommentList: React.FC<CommentListProps> = ({ postId }) => {
   const {loading, comments} = useComments({ postId })
 
   return (
-    <div className="w-full">
+    <>
       {loading && <LoadingIndicator />}
       {!loading && comments.length === 0 && <p>No comments.</p>}
       <ul className="flex flex-col gap-6">
@@ -24,7 +24,7 @@ const CommentList: React.FC<CommentListProps> = ({ postId }) => {
           </li>
         ))}
       </ul>
-    </div>
+    </>
   )
 }
 

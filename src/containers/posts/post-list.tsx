@@ -20,7 +20,11 @@ interface PostListProps {
   indexLikedPosts: Record<string, LikedPost>
 }
 
-const PostList: React.FC<PostListProps> = ({boardSlug, initPosts, indexLikedPosts}) => {
+const PostList: React.FC<PostListProps> = ({
+  boardSlug, 
+  initPosts, 
+  indexLikedPosts
+}) => {
   const {posts} = usePostsManager(initPosts)
   useLikedPostsManager(indexLikedPosts)
 

@@ -9,9 +9,7 @@ export default async function Home() {
     <>
       <section className="hero">
         <div className="hero-content flex-col lg:flex-row-reverse">
-        <img
-          src="https://img.daisyui.com/images/stock/photo-1635805737707-575885ab0820.jpg"
-          className="max-w-sm rounded-lg shadow-2xl" />
+        
           <div className="max-w-md">
             <h1 className="text-5xl font-bold">
               Build the Product Your Users Need

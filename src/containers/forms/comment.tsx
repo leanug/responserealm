@@ -86,7 +86,6 @@ const NewCommentForm: React.FC<NewCommentFormProps> = ({postId}) => {
         }
         
         setInputValue('') // Clear textarea
-        addNotification('New comment!', 'success')
         reset({})
       } else {
         throw new Error('An error occurred while creating your comment. Please try again.')

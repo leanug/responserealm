@@ -31,7 +31,7 @@ const BoardsPageDashboard: React.FC<BoardsPageDashboardProps> = ({
           </div>
         </PageHeader>
       </div>
-      <div className="bg-base-100 rounded-lg p-6">
+      <div className="bg-base-100 rounded-lg p-2.5 md:p-6">
         <p className="text-lg">
           👉 Explore ideas on improving user experience and adding features 
           that truly matter to users and clients.

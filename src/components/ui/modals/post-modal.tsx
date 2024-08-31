@@ -3,7 +3,6 @@
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import { useSession } from 'next-auth/react'
 
-import AuthContent from '@/components/auth/auth-content'
 import {useModalStore}  from '@/store/use-modal-store'
 import { useEffect } from 'react'
 import NewPostForm from '@/containers/forms/post'

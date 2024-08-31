@@ -13,7 +13,6 @@ import { usePosts } from '@/hooks/use-posts'
 import { LoadingIndicator } from '@/components'
 import PostItem from '@/containers/posts/post-item'
 import PostHeader from '@/containers/posts/post-item/post-header'
-import PostUpdatedAt from '@/containers/posts/post-item/post-updated'
 import DeletePostBtn from '@/containers/ui/delete-post-btn'
 import PostListDropdown from '@/containers/ui/post-list-dropdown'
 
@@ -30,8 +29,11 @@ const PostListDashboard: React.FC<PostListDashboardProps> = ({
       
   return (
     <>
-      {loading && <LoadingIndicator />}
-      {!loading && posts.length === 0 && <p>No posts</p>}
+      {
+        loading 
+          ? <div className="p-2.5 md:p-6"><LoadingIndicator /></div> 
+          : null
+      }
       <ul className="flex flex-col gap-1">
         {Array.isArray(posts) && posts?.map((item: Post) => {
           const {
@@ -41,17 +43,12 @@ const PostListDashboard: React.FC<PostListDashboardProps> = ({
             likes, 
             _id, 
             commentCount,
-            updatedAt
           } = item
           
           return (
-            <li 
-              className="w-full" 
-              key={item._id}
-            >
+            <li key={item._id} >
               <PostItem 
                 header={<PostHeader name={name} />}
-                postUpdatedAt={<PostUpdatedAt updatedAt={updatedAt} />}
                 postData={
                   <div className="flex flex-row gap-3 items-center">
                     <Link 

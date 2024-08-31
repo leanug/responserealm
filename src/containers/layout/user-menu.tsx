@@ -1,11 +1,15 @@
 'use client'
 
-// src/components/ui/user-menu.tsx
+import { useParams } from 'next/navigation'
+import { useQuery } from 'react-query'
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { ArrowLeftStartOnRectangleIcon } from '@heroicons/react/24/solid'
 import { Bars4Icon, ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline'
+import { getBoardBySlug } from '@/server'
+import { useSession } from 'next-auth/react'
+import { LoadingIndicator } from '@/components'
 
 interface UserMenuProps {
   userName: string
@@ -15,10 +19,20 @@ interface UserMenuProps {
 
 const UserMenu: React.FC<UserMenuProps> = ({ userName, userImage, signOut }) => {
   const [isOpen, setIsOpen] = useState(false)
+  const {data: session} = useSession()
+  const userId: string | null = session?.user?.id || null
 
   const handleToggle = () => {
     setIsOpen(!isOpen)
   }
+
+  const params = useParams<{ boardSlug: string }>()
+  const {boardSlug} = params
+
+  const { data, isLoading } = useQuery('boardData', () => getBoardBySlug(boardSlug), {
+    enabled: !!boardSlug, // Ensure the query only runs if boardSlug is available
+  })
+  const userBoardId = data ? data.user : null
 
   useEffect(() => {
     const handleClickOutside = () => {
@@ -32,6 +46,10 @@ const UserMenu: React.FC<UserMenuProps> = ({ userName, userImage, signOut }) => 
       document.removeEventListener('click', handleClickOutside)
     }
   }, [isOpen])
+
+  if (isLoading) {
+    return <div className="btn btn-disabled"><LoadingIndicator /></div>
+  }
 
   return (
     <div className="
@@ -68,12 +86,14 @@ const UserMenu: React.FC<UserMenuProps> = ({ userName, userImage, signOut }) => 
             
           </li>
           <li className="border border-t-1 border-indigo-500"></li>
-          <li>
-            <Link href="/dashboard">
-              <ClipboardDocumentCheckIcon className="w-5 h-5" />
-              Dashboard
-            </Link>
-          </li>
+          {userId === userBoardId && (
+            <li>
+              <Link href="/dashboard" className="flex items-center space-x-2">
+                <ClipboardDocumentCheckIcon className="w-5 h-5" />
+                <span>Dashboard</span>
+              </Link>
+            </li>
+          )}
           <li className="border border-t-1 border-indigo-500"></li>
           <li>
             <button onClick={signOut}>
