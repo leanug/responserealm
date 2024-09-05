@@ -1,4 +1,3 @@
-// src/components/layout/header.tsx
 'use client'
 
 import React from 'react'
@@ -10,7 +9,7 @@ export default function Nav() {
   const { data: session, status } = useSession()
 
   return (
-    <div className="navbar max-w-5xl lg:mx-auto">
+    <div className="navbar container lg:mx-auto">
       <div className="flex-1">
         <Link href="/">
           <style jsx>{`

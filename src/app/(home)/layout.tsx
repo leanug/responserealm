@@ -3,7 +3,7 @@ import { Inter } from "next/font/google"
 import "../globals.css"
 
 import Header from "@/components/layout/header"
-import Footer from "@/components/layout/logged-footer"
+import Footer from "@/components/layout/footer"
 import SessionWrapper from "@/containers/session/session-wrapper"
 
 const inter = Inter({ subsets: ["latin"] });
@@ -26,10 +26,7 @@ export default async function RootLayout({
       <html lang="en" data-theme="light">
         <body className={`${inter.className}`}>
           <Header />
-          <main className="
-            flex min-h-screen flex-col items-center justify-between 
-            mt-10"
-          >
+          <main className="flex min-h-screen flex-col items-center justify-between">
             {children}
           </main>
           <Footer />

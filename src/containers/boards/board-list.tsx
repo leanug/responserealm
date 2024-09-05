@@ -4,7 +4,7 @@
 import React, { useEffect } from 'react'
 
 import BoardItem from './board-item'
-import useBoardStore from '@/store/use-boards-store'
+import { useBoardsStore } from '@/store'
 import { Board } from '@/types/board'
 
 interface BoardListProps {
@@ -12,7 +12,7 @@ interface BoardListProps {
 }
 
 const BoardList: React.FC<BoardListProps> = ({ initialBoards }) => {
-  const { boards, setBoards } = useBoardStore()
+  const { boards, setBoards } = useBoardsStore()
 
   useEffect(() => {
     if (initialBoards && boards && boards.length === 0) {
@@ -27,7 +27,7 @@ const BoardList: React.FC<BoardListProps> = ({ initialBoards }) => {
           <li className="w-full" key={item._id}>
             <BoardItem 
               name={item.name} 
-              slug={item.slug} 
+              slug={item?.slug || ''} 
             />
           </li>
         )
