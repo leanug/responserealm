@@ -3,13 +3,13 @@ import ContentWrapper from "@/components/layout/content-wrapper"
 export default function Page() {
   return (
     <ContentWrapper>
-        <h1 className="text-3xl font-bold mb-4 text-gray-900">Privacy Policy for ResponseRealm.com</h1>
+        <h1 className="text-3xl font-bold mb-4 text-gray-900">Privacy Policy for FeedbackRealm.com</h1>
         <p className="text-sm text-gray-600 mb-8">Last Updated: [Date]</p>
 
         <p className="text-lg text-gray-700 mb-6">
-          At <strong>ResponseRealm.com</strong> ("we," "us," or "our"), we value your privacy and are committed to
+          At <strong>FeedbackRealm.com</strong> ("we," "us," or "our"), we value your privacy and are committed to
           protecting your personal information. This Privacy Policy outlines how we collect, use, and safeguard the
-          data you provide when using our platform, located at <strong>ResponseRealm.com</strong> (the "Website").
+          data you provide when using our platform, located at <strong>FeedbackRealm.com</strong> (the "Website").
         </p>
         <p className="text-lg text-gray-700 mb-6">
           By accessing or using the Website, you agree to the terms set forth in this Privacy Policy. If you do not agree with
@@ -61,7 +61,7 @@ export default function Page() {
 
         <h2 className="text-2xl font-bold text-gray-900 mb-4">3. Data Sharing</h2>
         <p className="text-lg text-gray-700 mb-6">
-          At <strong>ResponseRealm.com</strong>, we do not sell, trade, or rent your personal information to any third party.
+          At <strong>FeedbackRealm.com</strong>, we do not sell, trade, or rent your personal information to any third party.
           We also do not share your personal data except in the following cases:
         </p>
         <ul className="list-disc list-inside text-lg text-gray-700 mb-6">
@@ -74,7 +74,7 @@ export default function Page() {
 
         <h2 className="text-2xl font-bold text-gray-900 mb-4">4. Children's Privacy</h2>
         <p className="text-lg text-gray-700 mb-6">
-          <strong>ResponseRealm.com</strong> is not intended for use by children under the age of 13. We do not knowingly collect personal data from children. If we discover that a child has provided us with personal information, we will promptly delete such information from our systems.
+          <strong>FeedbackRealm.com</strong> is not intended for use by children under the age of 13. We do not knowingly collect personal data from children. If we discover that a child has provided us with personal information, we will promptly delete such information from our systems.
         </p>
 
         <h2 className="text-2xl font-bold text-gray-900 mb-4">5. Updates to This Privacy Policy</h2>
@@ -92,7 +92,7 @@ export default function Page() {
         </p>
 
         <p className="text-lg text-gray-700 mb-6">
-          By using <strong>ResponseRealm.com</strong>, you consent to the terms outlined in this Privacy Policy.
+          By using <strong>FeedbackRealm.com</strong>, you consent to the terms outlined in this Privacy Policy.
         </p>
     </ContentWrapper>
   )

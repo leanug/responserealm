@@ -22,17 +22,16 @@ export default function Nav() {
           `}</style>
           <div className='w-32'>
             <Image
-              src="/Logo.png"
+              src="/feedbackrealm-logo.svg"
               alt="Logo"
-              width={256}
-              height={73}
+              width={180}
+              height={24}
               placeholder="empty" // use 'empty' for a blank placeholder
               loading="eager" 
               priority={true}
               className="logo"
             />
           </div>
-          
         </Link>
       </div>
       <div className="flex-none">
