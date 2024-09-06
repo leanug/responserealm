@@ -17,7 +17,7 @@ const ButtonSocial = ({
 
   return (
     <button 
-      className="btn btn-outline btn-block" 
+      className="btn btn-outline border-gray-200 btn-block relative" 
       onClick={handleClick}
     >
       {children}

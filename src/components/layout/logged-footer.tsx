@@ -12,7 +12,7 @@ export default function LoggedFooter() {
         <span>
           Powered by 
           <Link className="ml-1 link" href="/">
-            ResponseRealm
+            FeedbackRealm
           </Link>
         </span>
       </div>

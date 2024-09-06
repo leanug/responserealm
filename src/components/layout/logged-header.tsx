@@ -1,4 +1,3 @@
-// src/components/layout/header.tsx
 'use client'
 
 import React from 'react'
@@ -25,7 +24,10 @@ export default function LoggedHeader() {
           <>
             {!isVisitorPath && (
               <li className="mr-2">
-                <Link className="btn btn-ghost" href="/b/54055304-responserealm">
+                <Link 
+                  className="btn btn-ghost" 
+                  href="/b/12465513-responserealm"
+                >
                   <ChatBubbleLeftIcon className="w-5 h-5" />
                   Feedback
                 </Link>
@@ -41,14 +43,25 @@ export default function LoggedHeader() {
             </>
           
         ) : (
-          <li>
-            <button 
-              className="btn btn-neutral"
-              onClick={() => setOpenModal('login-modal')}
-            >
-              Login
-            </button>
-          </li>
+          <>
+            <li className="mr-2">
+                <Link 
+                  className="btn btn-ghost" 
+                  href="/b/12465513-responserealm"
+                >
+                  <ChatBubbleLeftIcon className="w-5 h-5" />
+                  Feedback
+                </Link>
+            </li>
+            <li>
+              <button 
+                className="btn btn-neutral"
+                onClick={() => setOpenModal('login-modal')}
+              >
+                Login
+              </button>
+            </li>
+          </>
         )}
       </ul>
     </div>

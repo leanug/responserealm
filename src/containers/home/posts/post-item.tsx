@@ -1,8 +1,12 @@
 'use client'
 
-import { ClockIcon, ChatBubbleLeftIcon, HeartIcon } from '@heroicons/react/24/outline'
+import { 
+  ClockIcon, 
+  ChatBubbleLeftIcon, 
+  HeartIcon 
+} from '@heroicons/react/24/outline'
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
-import { useState } from 'react';
+import { useState } from 'react'
 
 interface FeedbackPostProps {
   title: string;
@@ -32,7 +36,7 @@ const FeedbackPost: React.FC<FeedbackPostProps> = ({
   }
 
   return (
-    <div className="p-2.5 md:p-6 border-b bg-white rounded-lg">
+    <div className="p-2.5 md:p-6 border-b">
       <div className="flex flex-row gap-10 justify-between items-center">
         <h2 className="text-lg font-semibold">{title}</h2>
         {status && (
@@ -73,4 +77,4 @@ const FeedbackPost: React.FC<FeedbackPostProps> = ({
   );
 };
 
-export default FeedbackPost;
+export default FeedbackPost

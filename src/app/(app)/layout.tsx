@@ -13,7 +13,7 @@ import { Notification } from "@/components/notification"
 import QueryClientProviderWrapper from '@/components/providers/query-client-provider-wrapper'
 
 export const metadata: Metadata = {
-  title: "Response Realm",
+  title: "FeedbackRealm",
   description: `
     Gather and prioritize user feedback to enhance your 
     web app with features that matter most to your audience.

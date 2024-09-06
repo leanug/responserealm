@@ -8,20 +8,28 @@ export default async function Home() {
     <>
       <section className="w-full py-12 md:py-24 relative">
         <Image
-          src="/bg1-5.png"
+          src="/bg1-5-min.png"
           alt="Background gradient image"
           width={256}
           height={73}
           placeholder="empty" // use 'empty' for a blank placeholder
           loading="eager" 
           priority={true}
-          className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full -z-10"
+          className="
+            absolute top-1/2 left-1/2 transform -translate-x-1/2 
+            -translate-y-1/2 w-full -z-10"
         />
         <div className="mx-auto container px-2.5">
-        <div className="flex flex-col md:flex-row items-center justify-center h-full space-y-8 md:space-y-0 md:space-x-8">
+        <div className="
+          flex flex-col md:flex-row items-center justify-center h-full 
+          space-y-8 md:space-y-0 md:space-x-8
+        ">
         <div className="flex-1 text-left">
               <div className="space-y-3">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl">
+                <h1 className="
+                  text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl 
+                  lg:text-6xl
+                ">
                   Build the Product Your Users Need
                 </h1>
                 <p className="max-w-[700px] md:text-xl dark:text-gray-400">
@@ -32,7 +40,7 @@ export default async function Home() {
               </div>
               <div className="mt-6">
                 <Link 
-                  className="btn btn-neutral btn-wide" 
+                  className="btn btn-neutral btn-wide btn-lg" 
                   href="/auth/login"
                 >
                   Get Started
@@ -40,7 +48,10 @@ export default async function Home() {
               </div>
             </div>
             <div className="flex-1 mt-8 md:mt-0 w-full">
-              <div className="w-full rounded-lg shadow-lg bg-white flex items-center justify-center">
+              <div className="
+                w-full rounded-lg shadow-lg bg-white flex 
+                items-center justify-center
+              ">
                 {/* Replace with your actual component */}
                 <HomePostList />
               </div>
@@ -162,7 +173,7 @@ export default async function Home() {
               </div>
             </div>
             <div className="flex-1 w-full">
-              <div className="shadow-md rounded-lg">
+              <div className="shadow-md rounded-lg bg-white">
                 <FeedbackPost
                   title="Dark Mode Request"
                   status="Underway"

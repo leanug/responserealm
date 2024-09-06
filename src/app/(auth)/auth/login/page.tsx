@@ -1,5 +1,3 @@
-// src/app/(auth)/auth/login/page.tsx
-
 import AuthContent from '@/components/auth/auth-content'
 
 async function LoginPage() {
@@ -9,7 +7,6 @@ async function LoginPage() {
         <AuthContent />
       </div>
     </div>
-    
   )
 }
 

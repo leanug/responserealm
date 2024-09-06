@@ -35,7 +35,7 @@ export default function Nav() {
         </Link>
       </div>
       <div className="flex-none">
-        <ul className="menu menu-horizontal px-1">
+        <ul className="menu menu-horizontal gap-3 px-1">
           {status === 'authenticated' ? (
             <>
               <li>
@@ -46,18 +46,9 @@ export default function Nav() {
               <li>
                 <Link  
                   href={`/dashboard`}
-                  className='bg-transparent focus:bg-transparent hover:bg-transparent'
+                  className='btn'
                 >
-                  <Image
-                    src={session.user?.image as string}
-                    alt={session.user?.name || "User Avatar"}
-                    width={'36'}
-                    height={'36'}
-                    placeholder="empty" // use 'empty' for a blank placeholder
-                    loading="eager" 
-                    priority={true}
-                    className='rounded-full'
-                  />
+                  Dashboard
                 </Link>
               </li>
             </>
@@ -65,9 +56,20 @@ export default function Nav() {
             <>
               <li>
                 <Link 
+                  href="/b/feedbackrealm"
+                  className="btn"
+                >
+                  Feedback
+                </Link>
+              </li>
+              <li>
+                <Link 
                   href="/auth/login"
                   className="btn btn-neutral"
                 >
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth="1.5" stroke="currentColor" className="size-6">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                  </svg>
                   Login
                 </Link>
               </li>

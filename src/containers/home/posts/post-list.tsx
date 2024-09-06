@@ -18,7 +18,7 @@ const HomePostList: React.FC = () => {
         </li>
       ))}
     </ul>
-  );
-};
+  )
+}
 
 export default HomePostList

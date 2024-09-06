@@ -6,7 +6,7 @@ import { connectDB } from '@/server/mongodb'
 import { ENV } from '@/utils/constants'
 
 interface Params {
-  slug: string
+  id: string
 }
 
 export async function DELETE(req: Request, {params}: {params: Params}) {

@@ -3,8 +3,6 @@
 import React from 'react'
 import Image from 'next/image'
 
-import { GithubLogo, GoogleLogo } from '@/components'
-
 import ButtonSocial from '@/components/ui/buttons/button-social'
 
 /**
@@ -16,10 +14,10 @@ const AuthContent: React.FC = () => {
     <div>
       <div className="mx-auto mb-6 max-w-40">
         <Image
-          src="/Logo.png"
+          src="/feedbackrealm-logo.svg"
           alt="Logo"
-          width={256}
-          height={73}
+          width={180}
+          height={24}
           placeholder="empty" // use 'empty' for a blank placeholder
           loading="eager" 
           priority={true}
@@ -30,15 +28,33 @@ const AuthContent: React.FC = () => {
         Sign in
       </h1>
       <div className="
-        w-full flex flex-col max-w-xl gap-5 justify-center 
+        w-full flex flex-col max-w-xl gap-3 justify-center 
         items-center
       ">
         <ButtonSocial provider="google">
-          <GoogleLogo className="w-5 h-5" />
+          <Image
+            src="/7123025_logo_google_g_icon.svg"
+            alt="Google Logo"
+            width={40}
+            height={40}
+            placeholder="empty" // use 'empty' for a blank placeholder
+            loading="eager" 
+            priority={true}
+            className="absolute top-1/2 left-1 transform -translate-y-1/2"
+            />
           Sign in with Google
         </ButtonSocial>
         <ButtonSocial provider="github">
-          <GithubLogo className="w-5 h-5" />
+          <Image
+            src="/1298743_github_git_logo_social_icon.svg"
+            alt="Github Logo"
+            width={26}
+            height={26}
+            placeholder="empty" // use 'empty' for a blank placeholder
+            loading="eager" 
+            priority={true}
+            className="absolute top-1/2 left-3 transform -translate-y-1/2"
+          />
           Sign in with Github
         </ButtonSocial>
       </div>
