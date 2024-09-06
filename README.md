@@ -1,6 +1,6 @@
 # ResponseRealm 🚀
 
-**ResponseRealm** is a Next.js web application designed to gather and prioritize user feedback to enhance web apps with features that matter most to the audience.
+**FeedbackRealm** is a Next.js web application designed to gather and prioritize user feedback to enhance web apps with features that matter most to the audience.
 
 ## Table of Contents 📚
 
