@@ -1,4 +1,3 @@
-// src/hooks/use-posts.ts
 import { useState, useEffect } from 'react'
 
 import { useNotificationStore } from '@/store/use-notification-store'

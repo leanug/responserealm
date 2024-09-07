@@ -34,7 +34,7 @@ const PostListDropdown: React.FC<PostListDropdownProps> = ({
     changePostStatus(postId, value) // Change status in store
 
     // Change post status database
-    const url = `${ENV.BASE_URL}/${ENV.ENDPOINTS.POST.UPDATE_STATUS(postId, value)}`
+    const url = `${process.env.BASE_URL}/${ENV.ENDPOINTS.POST.UPDATE_STATUS(postId, value)}`
     const response = await fetch(url, {
       method: 'PATCH'
     })

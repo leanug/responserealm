@@ -2,7 +2,7 @@ import { ENV } from '@/utils/constants'
 import { Comment } from "@/types/comment"
 
 export async function getCommentsByPostId(postId: string): Promise<Comment[] | null> {
-  const url = `${ENV.BASE_URL}/${ENV.ENDPOINTS.COMMENT.GET_BY_POST_ID(postId)}`
+  const url = `${process.env.BASE_URL}/${ENV.ENDPOINTS.COMMENT.GET_BY_POST_ID(postId)}`
   
   const response = await fetch(url, {
     method: 'GET'

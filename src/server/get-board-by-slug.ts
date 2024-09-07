@@ -8,7 +8,7 @@ import { Board } from '@/types/board'
  * @returns The board data if successful, or an empty array if no data is found.
  */
 export async function getBoardBySlug(slug: string): Promise<Board | null> {
-  const url = `${ENV.BASE_URL}/${ENV.ENDPOINTS.BOARD.GET_BY_SLUG(slug)}`
+  const url = `${process.env.BASE_URL}/${ENV.ENDPOINTS.BOARD.GET_BY_SLUG(slug)}`
   
   const response = await fetch(url, {cache: 'no-store'})
   

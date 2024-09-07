@@ -1,4 +1,3 @@
-// src/hooks/use-initialize-boards.ts
 'use client'
 
 import { useEffect, useState } from 'react'

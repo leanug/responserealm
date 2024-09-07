@@ -1,4 +1,3 @@
-// src/hooks/use-post.ts
 'use client'
 
 import { useEffect, useState } from 'react'

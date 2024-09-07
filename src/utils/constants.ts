@@ -1,6 +1,5 @@
 // Define the ENV constant
 export const ENV = {
-  BASE_URL: 'http://localhost:3000',
   ENDPOINTS: {
     AUTH: {
       CHANGE_PASSWORD: 'auth/change-password',

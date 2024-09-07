@@ -26,7 +26,7 @@ const useLikedPostActions = () => {
       return
     }
     
-    const url = `${ENV.BASE_URL}/${ENV.ENDPOINTS.LIKED_POST.CREATE}`
+    const url = `${process.env.BASE_URL}/${ENV.ENDPOINTS.LIKED_POST.CREATE}`
     const data = {
       postId
     }
@@ -50,7 +50,7 @@ const useLikedPostActions = () => {
 
       // Increment database post likes counter
       const updateLikesUrl = `
-        ${ENV.BASE_URL}/${ENV.ENDPOINTS.POST.LIKE(postId, 'like')}
+        ${process.env.BASE_URL}/${ENV.ENDPOINTS.POST.LIKE(postId, 'like')}
       `
       const updateLikesResponse = await fetch(updateLikesUrl, { 
         method: 'PATCH'
@@ -81,7 +81,7 @@ const useLikedPostActions = () => {
     }
 
     const url = `
-      ${ENV.BASE_URL}/${ENV.ENDPOINTS.LIKED_POST.DELETE(likedPostId)}
+      ${process.env.BASE_URL}/${ENV.ENDPOINTS.LIKED_POST.DELETE(likedPostId)}
     `
 
     const response = await fetch(url, {method: 'DELETE'})
@@ -91,7 +91,7 @@ const useLikedPostActions = () => {
 
       // Decrement database post likes counter
       const updateLikesUrl = `
-        ${ENV.BASE_URL}/${ENV.ENDPOINTS.POST.LIKE(postId, 'dislike')}
+        ${process.env.BASE_URL}/${ENV.ENDPOINTS.POST.LIKE(postId, 'dislike')}
       `
       const updateLikesResponse = await fetch(updateLikesUrl, { 
         method: 'PATCH'

@@ -19,7 +19,7 @@ export const usePostActions = () => {
   const handleDelete = async (postId: string) => {
     setIsDeleting(true)
     try {
-      const url = `${ENV.BASE_URL}/${ENV.ENDPOINTS.POST.DELETE(postId)}`
+      const url = `${process.env.BASE_URL}/${ENV.ENDPOINTS.POST.DELETE(postId)}`
       const response = await fetch(url, {
         method: 'DELETE',
       })
@@ -39,7 +39,7 @@ export const usePostActions = () => {
 
   const incrementCommentCount = async (postId: string) => {
     try {
-      const url = `${ENV.BASE_URL}/${ENV.ENDPOINTS.POST.COMMENT(postId, 'addComment')}`
+      const url = `${process.env.BASE_URL}/${ENV.ENDPOINTS.POST.COMMENT(postId, 'addComment')}`
       
       const response = await fetch(url, {
         method: 'PATCH',
@@ -63,7 +63,7 @@ export const usePostActions = () => {
 
   const decrementCommentCount = async (postId: string) => {
     try {
-      const url = `${ENV.BASE_URL}/${ENV.ENDPOINTS.POST.COMMENT(postId, 'deleteComment')}`
+      const url = `${process.env.BASE_URL}/${ENV.ENDPOINTS.POST.COMMENT(postId, 'deleteComment')}`
       const response = await fetch(url, {
         method: 'PATCH',
       })

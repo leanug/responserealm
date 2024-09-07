@@ -16,7 +16,7 @@ interface PublicLinkProps {
 
 const PublicLink: React.FC<PublicLinkProps> = ({slug}) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const link = ENV.BASE_URL + '/b/' + slug
+  const link = process.env.BASE_URL + '/b/' + slug
 
   const handleCopy = () => {
     if (inputRef.current) {
