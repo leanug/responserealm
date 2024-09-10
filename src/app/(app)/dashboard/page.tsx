@@ -21,10 +21,7 @@ export default async function BoardListPage() {
 
   return (
     <div>
-      baseURL: {process.env.BASE_URL} 
-      baseURLPublic: {process.env.NEXT_PUBLIC_BASE_URL} 
-      test: {process.env.TEST} 
-      Dashboard under maintenance
+      <p>baseURL: {process.env.BASE_URL} </p>
       Initial boards: {initialBoards?.length}
     </div>
   )
