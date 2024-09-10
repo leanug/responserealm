@@ -1,5 +1,5 @@
 type BoardListHeaderProps = {
-  boardCount: number;
+  boardCount: number
 }
 
 function BoardListHeader({ 
