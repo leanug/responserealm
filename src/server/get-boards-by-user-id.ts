@@ -1,5 +1,3 @@
-//utils/get-boards-by-user-id.ts
-
 import { ENV } from "@/utils/constants"
 
 import { Board } from "@/types/board"

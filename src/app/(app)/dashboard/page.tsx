@@ -1,5 +1,3 @@
-// src/app/(app)/dashboard/page.tsx
-
 import { redirect } from "next/navigation"
 
 import { auth } from "@/auth"
@@ -15,9 +13,7 @@ export default async function BoardListPage() {
   }
 
   const userId = session?.user?.id || ''
-  //const initialBoards: Board[] | null = await getBoardsByUserId(userId)
+  const initialBoards: Board[] | null = await getBoardsByUserId(userId)
   
-  //return <BoardsPageDashboard initialBoards={initialBoards} />
-
-  return <div>Dashboard under maintenance</div>
+  return <BoardsPageDashboard initialBoards={initialBoards} />
 }
