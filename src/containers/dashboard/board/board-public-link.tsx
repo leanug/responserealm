@@ -3,7 +3,6 @@
 import React, { useRef } from 'react'
 import Link from "next/link"
 
-import { ENV } from '@/utils/constants'
 import { 
   DocumentDuplicateIcon,
   ArrowTopRightOnSquareIcon,
@@ -16,7 +15,7 @@ interface PublicLinkProps {
 
 const PublicLink: React.FC<PublicLinkProps> = ({slug}) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const link = process.env.BASE_URL + '/b/' + slug
+  const link = process.env.NEXT_PUBLIC_BASE_URL + '/b/' + slug
 
   const handleCopy = () => {
     if (inputRef.current) {

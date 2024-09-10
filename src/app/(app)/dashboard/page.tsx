@@ -3,9 +3,12 @@
 import { redirect } from "next/navigation"
 
 import { auth } from "@/auth"
-import { getBoardsByUserId } from "@/server/get-boards-by-user-id"
+import { getBoardsByUserId } from "@/server"
 import { Board } from "@/types/board"
-import BoardsPageDashboard from "@/components/pages/boards-page-dashboard"
+import BoardListContainer from "@/containers/boards/board-list-container"
+import NewBoardForm from "@/containers/forms/board"
+import PageHeader from "@/containers/layout/page-header"
+import ContentWrapper from '@/components/layout/content-wrapper'
 
 export default async function BoardListPage() {
   const session = await auth()
@@ -14,15 +17,35 @@ export default async function BoardListPage() {
     redirect("/")
   }
 
-  const userId = session?.user?.id || ''
-  const initialBoards: Board[] | null = await getBoardsByUserId(userId)
-  
-  //return <BoardsPageDashboard initialBoards={initialBoards} />
-
   return (
-    <div>
-      <p>baseURL: {process.env.BASE_URL} </p>
-      Initial boards: {initialBoards?.length}
-    </div>
+    <ContentWrapper>
+      <div className="bg-base-100 rounded-lg mb-2">
+        <PageHeader>
+          <div className="flex flex-row gap-3 items-center">
+            <h1 className="font-bold text-xl">
+              🗂️ Boards
+            </h1>
+          </div>
+        </PageHeader>
+      </div>
+      <div className="bg-base-100 border rounded-lg p-2.5 md:p-6">
+        <p className="text-lg">
+          👉 Explore ideas on improving user experience and adding features 
+          that truly matter to users and clients.
+        </p>
+        <div className="my-5">
+          <div className="bg-base-100 border p-6 rounded-lg">
+            <p className="mb-2">
+              Suggestion: use the name of your <b>business</b>
+            </p> 
+            <NewBoardForm />
+          </div>
+        </div>
+        <section>
+          
+          <BoardListContainer />
+        </section>
+      </div>
+    </ContentWrapper>
   )
 }
