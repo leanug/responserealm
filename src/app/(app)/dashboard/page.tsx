@@ -1,3 +1,5 @@
+// src/app/(app)/dashboard/page.tsx
+
 import { redirect } from "next/navigation"
 
 import { auth } from "@/auth"
@@ -13,7 +15,16 @@ export default async function BoardListPage() {
   }
 
   const userId = session?.user?.id || ''
-  const initialBoards: Board[] | null = await getBoardsByUserId(userId)
+  //const initialBoards: Board[] | null = await getBoardsByUserId(userId)
   
-  return <BoardsPageDashboard initialBoards={initialBoards} />
+  //return <BoardsPageDashboard initialBoards={initialBoards} />
+
+  return (
+    <div>
+      baseURL: {process.env.BASE_URL} 
+      baseURLPublic: {process.env.NEXT_PUBLIC_BASE_URL} 
+      test: {process.env.TEST} 
+      Dashboard under maintenance
+    </div>
+  )
 }
