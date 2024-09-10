@@ -4,8 +4,9 @@ import { Board } from "@/types/board"
 
 export async function getBoardsByUserId(userId: string) {
   const url = `
-    ${process.env.BASE_URL}/${ENV.ENDPOINTS.BOARD.GET_BY_USER_ID(userId)}
+    ${'https://www.feedbackrealm.com'}/${ENV.ENDPOINTS.BOARD.GET_BY_USER_ID(userId)}
   `
+
   const response = await fetch(url, { cache: 'no-store' })
   
   if (!response.ok) {
