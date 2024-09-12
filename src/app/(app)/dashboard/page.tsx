@@ -3,8 +3,6 @@
 import { redirect } from "next/navigation"
 
 import { auth } from "@/auth"
-import { getBoardsByUserId } from "@/server"
-import { Board } from "@/types/board"
 import BoardListContainer from "@/containers/boards/board-list-container"
 import NewBoardForm from "@/containers/forms/board"
 import PageHeader from "@/containers/layout/page-header"
@@ -42,7 +40,6 @@ export default async function BoardListPage() {
           </div>
         </div>
         <section>
-          
           <BoardListContainer />
         </section>
       </div>

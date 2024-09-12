@@ -1,10 +1,10 @@
 'use client'
 
-import { useFetchBoards } from '@/hooks';
+import { LoadingIndicator } from '@/components'
+import { useFetchBoards } from '@/hooks'
+import ErrorDisplay from '@/components/ui/error-display'
+import BoardListHeader from './board-list-header'
 import BoardList from './board-list'
-import { LoadingIndicator } from '@/components';
-import ErrorDisplay from '@/components/ui/error-display';
-import BoardListHeader from './board-list-header';
 
 const BoardListContainer = () => {
   const { 

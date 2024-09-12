@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useMutation, useQueryClient } from 'react-query'
 
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -23,10 +24,10 @@ import { useModalStore } from '@/store/use-modal-store'
 function NewBoardForm() {
   const { status } = useSession()
 
-  const [loading, setLoading] = useState(false) // Initialize the loading state
   const [inputValue, setInputValue] = useState('')
 
-  const { addBoard } = useBoardsStore()
+  const queryClient = useQueryClient()
+
   const {addNotification} = useNotificationStore()
   const {setOpenModal} = useModalStore()
   
@@ -41,14 +42,53 @@ function NewBoardForm() {
     defaultValues: {name: ''},
   })
 
-  const onSubmit = async (data: FormData) => {
-    if (status !== 'authenticated') {
-      // User not authenticated, open the login modal
-      setOpenModal('login-modal')
-      return
-    }
+  // Define the mutation hook
+  const { mutate, isLoading, isError, isSuccess } = useMutation({
+    mutationFn: (values) =>
+      fetch(ENV.ENDPOINTS.BOARD.CREATE, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(values),
+      })
+        .then((response) => response.json())
+        .then((result) => result.board), // Assuming the API response contains the new board under `board`
+    /* onMutate: async (newBoardData) => {
+      await queryClient.cancelQueries('boards');
+      
+      // Snapshot the previous value
+      const previousBoards = queryClient.getQueryData('boards');
+      
+      // Optimistically update to the new value
+      queryClient.setQueryData('boards', (oldBoards) => {
+        // Ensure oldBoards is an array, or initialize as empty if undefined
+        return [...(oldBoards || []), newBoardData];
+      });
 
-    try {
+      // Return a context object with the previous boards
+      return { previousBoards };
+    },*/
+    /* onSettled: () => {
+      // Refetch the boards to ensure the cache is up-to-date
+      queryClient.invalidateQueries('boards');
+    },  */
+    onSuccess: (newBoard) => {
+      // Update the cache manually by adding the new board to the existing boards
+      console.log(newBoard);
+      
+    },
+  });
+
+    /* if (status !== 'authenticated') {
+      // User not authenticated, open the login modal
+      setOpenModal('login-modal');
+      return;
+    } */
+
+    // Call the mutation function with form data
+
+    /* try {
       setLoading(true) // Start loading when form is submitted
        // If user doesn't exist, proceed with user registration
       const response = await fetch(ENV.ENDPOINTS.BOARD.CREATE, {
@@ -66,6 +106,11 @@ function NewBoardForm() {
         setInputValue('')
         addNotification('Your board was successfully created!', 'success')
         addBoard(newBoard) // Add board to store
+
+        // Update the boards query cache
+        queryClient.setQueryData('boards', newBoard);
+        console.log('here');
+        
       } else {
         addNotification(
           'An error occurred while creating your board. Please try again.', 
@@ -76,11 +121,11 @@ function NewBoardForm() {
       setLoading(false)
     }
   }
-
+ */
   return (
     <div className="w-full">
       {/* Login form */}
-      <Form onSubmit={handleSubmit(onSubmit)}>
+      <Form onSubmit={handleSubmit(mutate)}>
       <FormField htmlFor="name">
           <FormInput 
             type="text" 
@@ -95,7 +140,7 @@ function NewBoardForm() {
           {errors.name && <FormError>{errors.name.message}</FormError>}
         </FormField>
         <Button 
-          loading={loading} 
+          loading={isLoading} 
           type="submit"
         >
           Create project
