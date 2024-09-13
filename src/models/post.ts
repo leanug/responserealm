@@ -31,7 +31,6 @@ const postSchema = new Schema(
     },
     description: {
       type: String,
-      required: [true, "Description is required"],
       maxLength: [2000, "Description must be at most 500 characters"],
     },
     name: {

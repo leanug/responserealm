@@ -27,7 +27,7 @@ function NewBoardForm() {
   const {addNotification} = useNotificationStore()
 
   type FormData = z.infer<typeof BoardFormSchema>
-  
+
   const userId = session?.user?.id || ''
 
   const {
@@ -66,7 +66,6 @@ function NewBoardForm() {
     },
   })
 
- 
   const onSubmit = (data: { name: string }) => {
     if (status !== 'authenticated') {
       // User not authenticated, open the login modal

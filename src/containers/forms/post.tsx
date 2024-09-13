@@ -6,6 +6,7 @@ import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
 import { useSession } from 'next-auth/react'
+import { useMutation, useQueryClient } from 'react-query'
 
 import { 
   FormLabel, 
@@ -19,22 +20,24 @@ import {
 import { ENV } from '@/utils/constants'
 import PostFormSchema from '@/validators/post'
 import { useNotificationStore } from '@/store/use-notification-store'
-import { usePostStore } from '@/store/use-post-store'
 import { useModalStore } from '@/store/use-modal-store'
-import { useBoardStore } from '@/store/use-board'
+import { useFetchBoard } from '@/hooks'
+import { Post } from '@/types/post'
 
 function NewPostForm() {
   const { status } = useSession()
 
-  const [loading, setLoading] = useState(false)
   const [nameValue, setNameValue] = useState('')
   const [descValue, setDescValue] = useState('')
 
   const {addNotification} = useNotificationStore()
-  const {addPost} = usePostStore()
   const {setOpenModal} = useModalStore()
-  const {currentBoardId} = useBoardStore()
   
+  const queryClient = useQueryClient()
+
+  const {data: board, isLoading: isBoardLoading} = useFetchBoard()
+  const boardId = board?._id
+
   type FormData = z.infer<typeof PostFormSchema>
 
   const {
@@ -49,44 +52,48 @@ function NewPostForm() {
     },
   })
 
-  const onSubmit = async (formData: FormData) => {
-    if (status !== 'authenticated') {
-      // User not authenticated, open the login modal
-      setOpenModal('login-modal')
-      return
-    }
-
-    try {
-      setLoading(true) // Start loading when form is submitted
-      const data = {
-        ...formData,
-        boardId: currentBoardId
-      } // Board id for relating post to parent board
-      const response = await fetch(ENV.ENDPOINTS.POST.CREATE, {
+  // Define the mutation hook
+  const { mutate, isLoading } = useMutation({
+    mutationFn: async (formData: FormData) => 
+      // Send POST request
+      fetch(ENV.ENDPOINTS.POST.CREATE, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...formData,
+          boardId // Board ID for relating post to parent board
+        }),
       })
+        .then((response) => response.json())
+        .then((result) => result.data.post),
+    onSuccess: (newPost: Post) => {
+      const existingPosts: Post[] = queryClient.getQueryData(['posts', boardId]) || []
+      // Update the cache manually by adding the new board to the existing boards
+      const updatedPosts = newPost ? [newPost, ...existingPosts] : existingPosts
+      queryClient.setQueryData(['posts', boardId], updatedPosts)
+      setNameValue('')
+      setDescValue('')
+      setOpenModal('') // Close modal
+    },
+    onError: () => {
+      addNotification(
+        'Something went wrong.', 
+        'error'
+      )
+    },
+  })
 
-      if (response.ok) {
-        const result = await response.json()
-
-        if (result && result?.data && result?.data?.post) {
-          const newPost = result.data.post
-          addPost(newPost)
-        }
-        
-        addNotification('Your post was successfully created!', 'success')
-        setNameValue('')
-        setDescValue('')
-        setOpenModal('') // Close modal
-      } else {
-        addNotification('Oops! An error occured, please try again later.', 'error')
-      }
-    } finally {
-      setLoading(false)
+  const onSubmit = (data: { name: string, description: string }) => {
+    if (status !== 'authenticated') {
+      // User not authenticated, open the login modal
+      addNotification(
+        'You need to log in for creating posts.', 
+        'error'
+      )
+    } else {
+      mutate(data)
     }
   }
 
@@ -122,8 +129,9 @@ function NewPostForm() {
           {errors.description && <FormError>{errors.description.message}</FormError>}
         </FormField>
         <Button 
-          loading={loading} 
+          loading={isLoading} 
           type="submit"
+          disabled={isLoading || isBoardLoading}
         >
           Create Post
         </Button>

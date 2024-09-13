@@ -2,15 +2,13 @@
 
 import { PlusIcon } from '@heroicons/react/24/outline'
 
-import { useModalStore, useBoardStore } from '@/store'
+import { useModalStore } from '@/store'
 
-function NewPostBtn({boardId}: {boardId: string}) {
+function NewPostBtn() {
   const {setOpenModal} = useModalStore()
-  const {setCurrentBoardId} = useBoardStore()
 
   const handleClick = () => {
-    setCurrentBoardId(boardId); // Set the current board ID
-    setOpenModal('post-modal'); // Open the modal
+    setOpenModal('post-modal')
   };
 
   return (
