@@ -10,8 +10,11 @@ export const useFetchBoards = () => {
   const userId = session?.user?.id || ''
 
   return useQuery(
-    ['boards', userId], // The query key, including userId as a dependency
-    () => getBoardsByUserId(userId) // The fetch function that takes userId as an argument
+    ['boards', userId],
+    () => getBoardsByUserId(userId),
+    {
+      enabled: !!userId
+    }
   )
 
 }

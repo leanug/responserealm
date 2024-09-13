@@ -2,13 +2,11 @@ import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 
 import { deleteBoardById } from '@/server/delete-board-by-id'
-import { useBoardsStore } from '@/store/use-boards-store'
 import { useNotificationStore } from '@/store/use-notification-store'
 
 export const useBoardActions = () => {
   const [isDeleting, setIsDeleting] = useState(false)
   const { addNotification } = useNotificationStore()
-  const { deleteBoard } = useBoardsStore()
   const router = useRouter()
 
   const handleDelete = async (boardId: string) => {
@@ -26,8 +24,10 @@ export const useBoardActions = () => {
 
     if (success) {
       addNotification('Board deleted successfully', 'success')
-      deleteBoard(boardId) // Delete board from store
-      router.push('/dashboard')
+      //deleteBoard(boardId) // Delete board from store
+      console.log('delete board');
+      
+      //router.push('/dashboard')
       return true
     } else {
       addNotification('Failed to delete board', 'error')

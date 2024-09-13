@@ -15,7 +15,7 @@ const BoardListContainer = () => {
 
   if (isLoading) return <LoadingIndicator />
   if (error) return <ErrorDisplay />
-
+  
   return (
     boards && (
       <>

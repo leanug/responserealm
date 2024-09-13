@@ -16,7 +16,7 @@ export default async function Page() {
           <div className="bg-base-100 rounded-lg border">
             <PostHeader >
               <PostStatusFilter />
-              <NewPostBtn boardId={''} />
+              <NewPostBtn />
             </PostHeader>
             <PostList />
           </div>

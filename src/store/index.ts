@@ -1,5 +1,4 @@
 export * from '@/store/use-board'
-export * from '@/store/use-boards-store'
 export * from '@/store/use-comments-store'
 export * from '@/store/use-liked-posts-store'
 export * from '@/store/use-modal-store'
