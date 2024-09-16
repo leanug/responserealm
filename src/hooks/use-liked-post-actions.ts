@@ -1,19 +1,30 @@
-//src/hooks/use-liked-posts-actions.ts
 'use client'
 
 import { useState } from 'react'
+import { useSession } from 'next-auth/react'
+import { useParams } from 'next/navigation'
+import { useQueryClient } from 'react-query'
 
 import { useNotificationStore } from '@/store/use-notification-store'
-import { usePostStore } from '@/store/use-post-store'
 import { ENV } from '@/utils/constants'
-import { useLikedPostsStore } from '@/store/use-liked-posts-store'
+import { LikedPost } from '@/types/liked-post'
+import { Post, Board } from '@/types'
 
 const useLikedPostActions = () => {
   const [isProcessing, setIsProcessing] = useState(false)
 
+  const params = useParams<{ boardSlug: string }>()
+  const {boardSlug} = params
+  
+  
   const { addNotification } = useNotificationStore()
-  const { likePost, dislikePost } = usePostStore()
-  const { addLikedPost, removeLikedPost } = useLikedPostsStore()
+
+  const queryClient = useQueryClient()
+  const board: Board | undefined = queryClient.getQueryData(['board', boardSlug])
+  const boardId = board?._id || ''
+
+  const {data: session} = useSession()
+  const userId = session?.user?.id
   
   const handleLike = async (postId: string) => {
     setIsProcessing(true)
@@ -42,9 +53,17 @@ const useLikedPostActions = () => {
       const newLikedPost = await response.json()
       const { likedPost } = newLikedPost.data
 
-      addLikedPost({
-        _id: likedPost._id,
-        postId
+      // Add or update the liked post in the cache
+      queryClient.setQueryData(['likedPosts', userId], (oldCache: Record<string, LikedPost> | undefined) => {
+        if (!oldCache) return {}; // Handle the case where the cache doesn't exist yet
+        const updatedLikedPosts = {
+          ...oldCache,
+          [postId]: likedPost, // Add or update the post in the cache
+        }
+        console.log('oldCache', oldCache);
+        console.log('updatedLikedPosts', updatedLikedPosts);
+        
+        return updatedLikedPosts
       })
 
       // Increment database post likes counter
@@ -58,7 +77,15 @@ const useLikedPostActions = () => {
       if (!updateLikesResponse.ok) {
         addNotification('An error occured.', 'error')
       } else {
-        likePost(postId) // Increment store post likes by 1
+        // Increment store post likes by 1
+        queryClient.setQueryData(['posts', boardId], (oldCache: Post[] | undefined): Post[] => {
+          if (!oldCache) return [] // Handle the case where the cache doesn't exist yet
+
+          const updatedPosts: Post[] = oldCache?.map((post: Post) =>
+            post._id === postId ? { ...post, likes: post.likes + 1 } : post
+          )
+          return updatedPosts
+        })
       }
     } else {
       addNotification('An error occurred. Please try again later.', 'error')
@@ -86,7 +113,19 @@ const useLikedPostActions = () => {
     const response = await fetch(url, {method: 'DELETE'})
 
     if (response.ok) {
-      removeLikedPost(likedPostId) // Delete post from liked posts store
+      // Remove liked post from liked posts cache
+      queryClient.setQueryData(['likedPosts', userId], (oldCache: Record<string, LikedPost> | undefined) => {
+        if (!oldCache) return {} // Handle the case where the cache doesn't exist yet
+
+        const updatedLikedPosts = Object.keys(oldCache).reduce((acc, key) => {
+          if (oldCache[key]._id !== likedPostId) {
+            acc[key] = oldCache[key]
+          }
+          return acc
+        }, {} as Record<string, LikedPost>)
+
+        return updatedLikedPosts
+      })
 
       // Decrement database post likes counter
       const updateLikesUrl = `
@@ -99,7 +138,15 @@ const useLikedPostActions = () => {
       if (!updateLikesResponse.ok) {
         addNotification('An error occured.', 'error')
       } else {
-        dislikePost(postId) // Decrement store post likes by 1
+        // Decrement store post likes by 1
+        queryClient.setQueryData(['posts', boardId], (oldCache: Post[] | undefined): Post[] => {
+          if (!oldCache) return [] // Handle the case where the cache doesn't exist yet
+
+          const updatedPosts: Post[] = oldCache?.map((post) =>
+            post._id === postId ? { ...post, likes: post.likes - 1 } : post
+          )
+          return updatedPosts
+        })
       }
     } else {
       addNotification(

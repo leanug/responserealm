@@ -17,7 +17,13 @@ type PostActionsProps = {
   islikedPostsMapLoading: boolean
 }
 
-const PostActions: React.FC<PostActionsProps> = ({likes, postId, islikedPostsMapLoading, isLiked, likedPostId}) => {
+const PostActions: React.FC<PostActionsProps> = ({
+  likes, 
+  postId, 
+  islikedPostsMapLoading, 
+  isLiked, 
+  likedPostId
+}) => {
   const session = useSession() 
   const {setOpenModal} = useModalStore()
 
@@ -28,7 +34,6 @@ const PostActions: React.FC<PostActionsProps> = ({likes, postId, islikedPostsMap
   } = useLikedPostActions()
 
   const loading: boolean = islikedPostsMapLoading || isProcessing
-
   return (
     <button
       onClick={(e) => {

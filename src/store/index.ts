@@ -1,6 +1,5 @@
 export * from '@/store/use-board'
 export * from '@/store/use-comments-store'
-export * from '@/store/use-liked-posts-store'
 export * from '@/store/use-modal-store'
 export * from '@/store/use-mode-store'
 export * from '@/store/use-notification-store'

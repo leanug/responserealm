@@ -1,4 +1,4 @@
-export interface Post {
+export type Post = {
   _id: string
   board: string
   commentCount: number

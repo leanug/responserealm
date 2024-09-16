@@ -65,19 +65,19 @@ const PostList = () => {
     <ul className="flex flex-col">
       {Array.isArray(filteredPosts) && filteredPosts?.map((item: Post) => {
         const {
+          _id,
+          commentCount,
           name, 
           description, 
           status, 
           likes, 
-          _id, 
-          commentCount,
           slug,
           updatedAt
         } = item
 
         const isLiked = likedPostsMap ? Boolean(likedPostsMap[_id]) : false
         const likedPostId = likedPostsMap ? likedPostsMap[_id]?._id : ''
-
+        
         return (
           <li key={_id}>
             <PostItem 

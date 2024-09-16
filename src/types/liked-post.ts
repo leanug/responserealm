@@ -1,4 +1,4 @@
-export interface LikedPost {
+export type LikedPost = {
   _id: string
   postId: string
 }
