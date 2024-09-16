@@ -4,11 +4,11 @@
 import { HeartIcon } from '@heroicons/react/24/outline'
 import { HeartIcon as HeartIconSolid } from '@heroicons/react/24/solid'
 
-import { LoadingIndicator } from '@/components'
 import useLikedPostActions from '@/hooks/use-liked-post-actions'
-import { useLikedPostsStore } from '@/store/use-liked-posts-store'
+import { LoadingIndicator } from '@/components'
 import { useSession } from 'next-auth/react'
 import { useModalStore } from '@/store/use-modal-store'
+import { useFetchLikedPosts } from '@/hooks'
 
 interface PostActionsProps {
   likes: number
@@ -16,12 +16,7 @@ interface PostActionsProps {
 }
 
 const PostActions: React.FC<PostActionsProps> = ({likes, postId}) => {
-  const {likedPosts} = useLikedPostsStore()
-  const isLiked = Boolean(likedPosts[postId])
-  
-  const likedPostId = likedPosts[postId]?._id
   const session = useSession() 
-  
   const {setOpenModal} = useModalStore()
 
   const { 
@@ -29,6 +24,18 @@ const PostActions: React.FC<PostActionsProps> = ({likes, postId}) => {
     handleDislike, 
     isProcessing 
   } = useLikedPostActions()
+
+  // get liked posts
+  const {
+    indexLikedPosts,
+    isLoading,
+    error
+  } = useFetchLikedPosts()
+
+  const isLiked = !isLoading && Boolean(indexLikedPosts[postId])
+  const likedPostId = !isLoading && indexLikedPosts[postId]?._id
+
+  const loading: boolean = isLoading || isProcessing
 
   return (
     <button
@@ -43,10 +50,10 @@ const PostActions: React.FC<PostActionsProps> = ({likes, postId}) => {
           console.log('User is not logged in. Button click logged.')
         }
       }}
-      disabled={isProcessing}
+      disabled={loading || error ? true : false}
       className={`btn`}
     >
-      {isProcessing 
+      {loading 
         ? <LoadingIndicator /> 
         : (
           <>

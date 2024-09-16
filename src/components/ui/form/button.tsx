@@ -4,7 +4,7 @@ type ButtonProps = {
   children: React.ReactNode
   type: "button" | "submit" | "reset"
   loading: boolean
-  disabled: boolean
+  disabled?: boolean
 }
 
 export const Button: React.FC<ButtonProps> = ({loading, children, type, disabled }) => {

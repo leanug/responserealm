@@ -10,20 +10,18 @@ import PostComments from '@/containers/posts/post-item/post-comments'
 import PostDescription from '@/containers/posts/post-item/post-description'
 import PostUpdatedAt from '@/containers/posts/post-item/post-updated'
 import PostItem from '@/containers/posts/post-item'
-import { LikedPost } from '@/types/liked-post'
 import { Post } from '@/types/post'
-import { useLikedPostsManager } from "@/hooks"
 import { usePostFilterStore } from '@/store'
 import { postsFilter } from '@/utils'
 import { getBoardBySlug, getPostsByBoardId } from '@/server'
+import { LoadingIndicator } from '@/components'
+import ErrorDisplay from '@/components/ui/error-display'
 
 const PostList = () => {
-  //useLikedPostsManager(indexLikedPosts)
-  // indexLikedPosts = transformLikedPosts(fetchedLikedPosts)
   const params = useParams<{ boardSlug: string }>()
   const {boardSlug} = params
-  // const fetchedLikedPosts = await getLikedPostsByUserId(userId || '')
-
+  const {statusFilter} = usePostFilterStore()
+  
   const {
     data: board,
     isLoading: isBoardLoading, 
@@ -46,11 +44,15 @@ const PostList = () => {
     }
   )
 
-  const {statusFilter} = usePostFilterStore()
-
   // Filter posts based on the selected status filter
   const filteredPosts = postsFilter(posts || [], statusFilter)
+  const loading = arePostsLoading || isBoardLoading
+
+  if (loading)
+    return <div className="p-2.5 md:p-6 border-b"><LoadingIndicator /></div>
   
+  if (boardFetchError || postsFetchError) return <ErrorDisplay />
+
   return (
     <ul className="flex flex-col">
       {Array.isArray(filteredPosts) && filteredPosts?.map((item: Post) => {

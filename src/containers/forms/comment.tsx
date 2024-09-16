@@ -3,6 +3,7 @@
 
 import { useState } from 'react'
 
+import { useMutation, useQueryClient } from 'react-query'
 import * as z from "zod"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useForm } from "react-hook-form"
@@ -15,12 +16,10 @@ import {
   FormField, 
   Form 
 } from '@/components'
-import { ENV } from '@/utils/constants'
 import CommentFormSchema from '@/validators/comment'
+import { ENV } from '@/utils/constants'
 import { useNotificationStore } from '@/store/use-notification-store'
-import { useCommentsStore } from '@/store/use-comments-store'
-import { usePostActions } from '@/hooks/use-post-actions'
-import { useModalStore } from '@/store/use-modal-store'
+import { Comment } from '@/types/comment'
 
 interface NewCommentFormProps {
   postId: string
@@ -28,15 +27,9 @@ interface NewCommentFormProps {
 
 const NewCommentForm: React.FC<NewCommentFormProps> = ({postId}) => {
   const { status } = useSession()
-
-  const [loading, setLoading] = useState(false) // Initialize the loading state
   const [inputValue, setInputValue] = useState('')
-
+  const queryClient = useQueryClient()
   const {addNotification} = useNotificationStore()
-  const {addComment} = useCommentsStore()
-  const {setOpenModal} = useModalStore()
-
-  const {incrementCommentCount} = usePostActions()
 
   type FormData = z.infer<typeof CommentFormSchema>
 
@@ -44,60 +37,52 @@ const NewCommentForm: React.FC<NewCommentFormProps> = ({postId}) => {
     register,
     handleSubmit,
     formState: { errors },
-    reset
   } = useForm({
     resolver: zodResolver(CommentFormSchema),
     defaultValues: {comment: ''},
   })
 
-  const onSubmit = async (formData: FormData) => {
-    if (status !== 'authenticated') {
-      // User not authenticated, open the login modal
-      setOpenModal('login-modal')
-      return
-    }
-
-    try {
-      setLoading(true) // Start loading when form is submitted
-
-      const data = {
-        ...formData,
-        postId
-      }
-
-       // If user doesn't exist, proceed with user registration
-      const response = await fetch(ENV.ENDPOINTS.COMMENT.CREATE, {
+  // Define the mutation hook
+  const { mutate, isLoading } = useMutation({
+    mutationFn: (formData: FormData) =>
+      fetch(ENV.ENDPOINTS.COMMENT.CREATE, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(data),
+        body: JSON.stringify({
+          ...formData,
+          postId
+        }),
       })
+        .then((response) => response.json())
+        .then((result) => result.data.comment),
+    onSuccess: (newComment: Comment) => {
+      const existingComments: Comment[] = queryClient.getQueryData(['comments', postId]) || [];
+      // Update the cache manually by adding the new board to the existing boards
+      const updatedComments = [newComment, ...existingComments]
+      setInputValue('')
       
-      if (response.ok) {
-        const result = await response.json()
-
-        if (result && result?.data && result?.data?.comment) {
-          const newComment = result.data.comment
-          addComment(newComment) // Add comment to store
-          incrementCommentCount(newComment.post) // Increment posts store commentCounter
-        } else {
-          throw new Error('An error occurred while creating your comment. Please try again.')
-        }
-        
-        setInputValue('') // Clear textarea
-        reset({})
-      } else {
-        throw new Error('An error occurred while creating your comment. Please try again.')
-      }
-    } catch(error: any) {
-      if (ENV.IS_DEV) console.log(error)
+      //incrementCommentCount(newComment.post) // Increment posts store commentCounter
+      queryClient.setQueryData(['comments', postId], updatedComments)
+    },
+    onError: () => {
       addNotification(
-        error?.message, 
+        'An error occurred while creating your board. Please try again.', 
         'error'
       )
-    } finally {
-      setLoading(false)
+    },
+  })
+
+  const onSubmit = (data: { comment: string }) => {
+    if (status !== 'authenticated') {
+      // User not authenticated, open the login modal
+      addNotification(
+        'You need to log in for posting comments.', 
+        'error'
+      )
+    } else {
+      mutate(data)
     }
   }
 
@@ -118,8 +103,9 @@ const NewCommentForm: React.FC<NewCommentFormProps> = ({postId}) => {
           {errors.comment && <FormError>{errors.comment.message}</FormError>}
         </FormField>
         <Button 
-          loading={loading} 
+          loading={isLoading} 
           type="submit"
+          disabled={isLoading}
         >
           Add comment
         </Button>

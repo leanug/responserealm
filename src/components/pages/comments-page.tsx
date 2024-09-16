@@ -1,4 +1,3 @@
-// src/containers/posts/CommentsPage.tsx
 'use client'
 
 import { useParams } from 'next/navigation'
