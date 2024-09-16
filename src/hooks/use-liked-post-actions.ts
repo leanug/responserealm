@@ -15,7 +15,6 @@ const useLikedPostActions = () => {
   const { likePost, dislikePost } = usePostStore()
   const { addLikedPost, removeLikedPost } = useLikedPostsStore()
   
-
   const handleLike = async (postId: string) => {
     setIsProcessing(true)
 

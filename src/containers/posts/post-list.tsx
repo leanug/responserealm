@@ -10,18 +10,26 @@ import PostComments from '@/containers/posts/post-item/post-comments'
 import PostDescription from '@/containers/posts/post-item/post-description'
 import PostUpdatedAt from '@/containers/posts/post-item/post-updated'
 import PostItem from '@/containers/posts/post-item'
+import ErrorDisplay from '@/components/ui/error-display'
 import { Post } from '@/types/post'
 import { usePostFilterStore } from '@/store'
 import { postsFilter } from '@/utils'
 import { getBoardBySlug, getPostsByBoardId } from '@/server'
 import { LoadingIndicator } from '@/components'
-import ErrorDisplay from '@/components/ui/error-display'
+import { useFetchLikedPosts } from '@/hooks'
 
 const PostList = () => {
   const params = useParams<{ boardSlug: string }>()
   const {boardSlug} = params
   const {statusFilter} = usePostFilterStore()
   
+  // get liked posts
+  const {
+    likedPostsMap,
+    isLoading: islikedPostsMapLoading,
+    error
+  } = useFetchLikedPosts()
+
   const {
     data: board,
     isLoading: isBoardLoading, 
@@ -63,17 +71,22 @@ const PostList = () => {
           likes, 
           _id, 
           commentCount,
+          slug,
           updatedAt
         } = item
+
+        const isLiked = likedPostsMap ? Boolean(likedPostsMap[_id]) : false
+        const likedPostId = likedPostsMap ? likedPostsMap[_id]?._id : ''
+
         return (
-          <li key={item._id}>
+          <li key={_id}>
             <PostItem 
               header={<PostHeader name={name} />}
               description={<PostDescription description={description} />}
               postStatus={<PostStatus status={status} />}
               postActionBtn={
                 <PostComments  
-                  itemSlug={item.slug} 
+                  itemSlug={slug} 
                   boardSlug={boardSlug}
                   commentCount={commentCount} 
                 />
@@ -83,6 +96,9 @@ const PostList = () => {
                 <PostActions
                   likes={likes}
                   postId={_id}
+                  isLiked={isLiked}
+                  likedPostId={likedPostId}
+                  islikedPostsMapLoading={islikedPostsMapLoading}
                 />
               }
             />

@@ -8,14 +8,16 @@ import useLikedPostActions from '@/hooks/use-liked-post-actions'
 import { LoadingIndicator } from '@/components'
 import { useSession } from 'next-auth/react'
 import { useModalStore } from '@/store/use-modal-store'
-import { useFetchLikedPosts } from '@/hooks'
 
-interface PostActionsProps {
+type PostActionsProps = {
   likes: number
   postId: string
+  isLiked: boolean
+  likedPostId: string
+  islikedPostsMapLoading: boolean
 }
 
-const PostActions: React.FC<PostActionsProps> = ({likes, postId}) => {
+const PostActions: React.FC<PostActionsProps> = ({likes, postId, islikedPostsMapLoading, isLiked, likedPostId}) => {
   const session = useSession() 
   const {setOpenModal} = useModalStore()
 
@@ -25,17 +27,7 @@ const PostActions: React.FC<PostActionsProps> = ({likes, postId}) => {
     isProcessing 
   } = useLikedPostActions()
 
-  // get liked posts
-  const {
-    indexLikedPosts,
-    isLoading,
-    error
-  } = useFetchLikedPosts()
-
-  const isLiked = !isLoading && Boolean(indexLikedPosts[postId])
-  const likedPostId = !isLoading && indexLikedPosts[postId]?._id
-
-  const loading: boolean = isLoading || isProcessing
+  const loading: boolean = islikedPostsMapLoading || isProcessing
 
   return (
     <button
@@ -50,7 +42,7 @@ const PostActions: React.FC<PostActionsProps> = ({likes, postId}) => {
           console.log('User is not logged in. Button click logged.')
         }
       }}
-      disabled={loading || error ? true : false}
+      disabled={loading}
       className={`btn`}
     >
       {loading 
