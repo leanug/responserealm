@@ -9,13 +9,14 @@ import {
   InformationCircleIcon
 } from "@heroicons/react/24/outline"
 
-interface PublicLinkProps {
+type PublicLinkProps = {
+  id: string
   slug: string
 }
 
-const PublicLink: React.FC<PublicLinkProps> = ({slug}) => {
+const PublicLink: React.FC<PublicLinkProps> = ({slug, id}) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const link = process.env.NEXT_PUBLIC_BASE_URL + '/b/' + slug
+  const link = process.env.NEXT_PUBLIC_BASE_URL + '/b/' + id + '/' + slug
 
   const handleCopy = () => {
     if (inputRef.current) {

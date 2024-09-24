@@ -39,7 +39,7 @@ async function FeedbackPage({params}: {params: Params}) {
       </div>
       <div className="bg-base-100 rounded-lg">
         <div className="p-6 pt-3 border-b">
-          <PublicLink slug={board?.slug || ''} />
+          <PublicLink id={board?._id || ''} slug={board?.slug || ''} />
         </div>
         <PostListDashboard 
           boardSlug={boardSlug || ''} 

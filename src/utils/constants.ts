@@ -16,6 +16,7 @@ export const ENV = {
       CREATE: '/api/post/create',
       GET_BY_BOARD_ID: (boardId: string) => `/api/post/get/board-id/${boardId}`,
       GET_BY_SLUG: (slug: string) => `/api/post/get/slug/${slug}`,
+      GET_BY_ID: (id: string) => `/api/post/get/id/${id}`,
       COMMENT: (id: string, action: string) => `/api/post/patch/comment-count/${id}/${action}`,
       LIKE: (id: string, action: string) => `/api/post/patch/like/${id}/${action}`,
       UPDATE_STATUS: (id: string, status: string) => `/api/post/patch/status/${id}/${status}`,

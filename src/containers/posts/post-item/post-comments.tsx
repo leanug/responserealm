@@ -1,23 +1,23 @@
-// src/containers/posts/post-item/post-comments.tsx
-
 import Link from 'next/link'
 
 import { ChatBubbleLeftIcon } from '@heroicons/react/24/outline'
 
-interface PostCommentsProps {
+type PostCommentsProps = {
   commentCount: number
-  itemSlug: string
+  postId: string
   boardSlug: string | null
+  boardId: string
 }
 
 const PostComments: React.FC<PostCommentsProps> = ({ 
   commentCount, 
-  itemSlug, 
+  boardId,
+  postId, 
   boardSlug 
 }) => {
   return (
     <Link 
-      href={`/b/${boardSlug}/p/${itemSlug}`}
+      href={`/b/${boardId}/${boardSlug}/p/${postId}`}
       className="btn"
     >
       <ChatBubbleLeftIcon className="w-5 h-5" />

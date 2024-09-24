@@ -87,14 +87,16 @@ const UserMenu: React.FC<UserMenuProps> = ({ userName, userImage, signOut }) => 
           </li>
           <li className="border border-t-1 border-indigo-500"></li>
           {userId === userBoardId && (
-            <li>
-              <Link href="/dashboard" className="flex items-center space-x-2">
-                <ClipboardDocumentCheckIcon className="w-5 h-5" />
-                <span>Dashboard</span>
-              </Link>
-            </li>
+            <>
+              <li>
+                <Link href="/dashboard" className="flex items-center space-x-2">
+                  <ClipboardDocumentCheckIcon className="w-5 h-5" />
+                  <span>Dashboard</span>
+                </Link>
+              </li>
+              <li className="border border-t-1 border-indigo-500"></li>
+            </>
           )}
-          <li className="border border-t-1 border-indigo-500"></li>
           <li>
             <button onClick={signOut}>
               <ArrowLeftStartOnRectangleIcon className="w-5 h-5" />

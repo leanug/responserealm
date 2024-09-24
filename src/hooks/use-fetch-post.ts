@@ -1,9 +1,9 @@
 'use client'
 
-import { useQuery } from 'react-query';
+import { useQuery } from 'react-query'
+import { useParams } from 'next/navigation'
 
-import { getPostBySlug } from '@/server'
-import { useParams } from 'next/navigation';
+import { fetchPost } from '@/server'
 
 export const useFetchPost = () => {
   const params = useParams<{ postSlug: string }>()
@@ -11,7 +11,7 @@ export const useFetchPost = () => {
 
   return useQuery(
     ['post', postSlug],
-    () => getPostBySlug(postSlug),
+    () => fetchPost({slug: postSlug}),
     {
       enabled: !!postSlug
     }

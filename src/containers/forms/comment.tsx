@@ -1,7 +1,7 @@
-// scr/containers/forms/comment.tsx
 'use client'
 
 import { useState } from 'react'
+import { useParams } from 'next/navigation'
 
 import { useMutation, useQueryClient } from 'react-query'
 import * as z from "zod"
@@ -20,16 +20,17 @@ import CommentFormSchema from '@/validators/comment'
 import { ENV } from '@/utils/constants'
 import { useNotificationStore } from '@/store/use-notification-store'
 import { Comment } from '@/types/comment'
+import { usePostActions } from '@/hooks'
 
-interface NewCommentFormProps {
-  postId: string
-}
-
-const NewCommentForm: React.FC<NewCommentFormProps> = ({postId}) => {
+const NewCommentForm = () => {
   const { status } = useSession()
   const [inputValue, setInputValue] = useState('')
   const queryClient = useQueryClient()
   const {addNotification} = useNotificationStore()
+  const {incrementCommentCount} = usePostActions()
+
+  const params = useParams<{ postId: string }>()
+  const {postId} = params
 
   type FormData = z.infer<typeof CommentFormSchema>
 
@@ -62,8 +63,9 @@ const NewCommentForm: React.FC<NewCommentFormProps> = ({postId}) => {
       // Update the cache manually by adding the new board to the existing boards
       const updatedComments = [newComment, ...existingComments]
       setInputValue('')
-      
-      //incrementCommentCount(newComment.post) // Increment posts store commentCounter
+      // Increment posts cache post commentCounter
+      incrementCommentCount(postId) 
+      // Add new comment to comments cache useQuery
       queryClient.setQueryData(['comments', postId], updatedComments)
     },
     onError: () => {

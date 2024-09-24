@@ -6,24 +6,30 @@ import { useNotificationStore } from '@/store/use-notification-store'
 import { deleteCommentById } from '@/server/delete-comment-by-id'
 import { useState } from 'react'
 import { usePostActions } from './use-post-actions'
+import { useQueryClient } from 'react-query'
 
 export const useCommentActions = () => {
   const [isProcessing, setIsProcessing] = useState(false)
 
-  const { deleteComment } = useCommentsStore()
   const { addNotification } = useNotificationStore()
 
   const { decrementCommentCount } = usePostActions()
 
+  const queryClient = useQueryClient()
+
   const handleCommentDelete = async (commentId: string, postId: string) => {
     setIsProcessing(true)
     const response: boolean = await deleteCommentById(commentId)
-
     if (response) {
-      deleteComment(commentId) // Delete comment from store
-      decrementCommentCount(postId) // Decrement commentCount in post by 1
+      queryClient.setQueryData(['comments', postId], (oldData: Comment[] | undefined) => {
+        if (!oldData) return []
 
-      addNotification('Comment deleted successfully', 'success')
+        // Use the previously mapped `updatedComments` logic
+        const updatedComments = oldData?.filter((comment: Comment) => comment._id !== commentId)
+        return updatedComments
+      })
+
+      decrementCommentCount(postId) // Decrement commentCount in post by 1
     } else {
       addNotification('Failed to delete comment', 'error')
     }

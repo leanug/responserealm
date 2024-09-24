@@ -3,7 +3,7 @@
 import React from 'react'
 import Link from 'next/link'
 
-interface BoardItemProps {
+type BoardItemProps = {
   name: string
   slug: string
 }

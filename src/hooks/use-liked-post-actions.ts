@@ -60,8 +60,6 @@ const useLikedPostActions = () => {
           ...oldCache,
           [postId]: likedPost, // Add or update the post in the cache
         }
-        console.log('oldCache', oldCache);
-        console.log('updatedLikedPosts', updatedLikedPosts);
         
         return updatedLikedPosts
       })

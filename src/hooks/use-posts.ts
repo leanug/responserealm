@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 import { useNotificationStore } from '@/store/use-notification-store'
 import { usePostStore } from '@/store/use-post-store'
-import { getPostsByBoardId } from '@/server/get-posts-by-board-id'
+import { getPostsByBoardId } from '@/server/uset-fetch-posts'
 
 interface UsePostsProps {
   boardId: string | null
