@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { useQueryClient } from 'react-query'
 import { useParams } from 'next/navigation'
 
-import { usePostStore } from '@/store/use-post-store'
 import { useNotificationStore } from '@/store/use-notification-store'
 import { ENV } from '@/utils/constants'
 import { Board, Post } from '@/types'
@@ -19,12 +18,6 @@ export const usePostActions = () => {
   const boardId = board?._id
 
   const { addNotification } = useNotificationStore()
-  const { 
-    deletePost, 
-    changePostStatus,
-    incrementCommentCount: incrementCommentCountStore,
-    decrementCommentCount: decrementCommentCountStore 
-  } = usePostStore()
 
   const handleDelete = async (postId: string) => {
     setIsDeleting(true)
@@ -35,7 +28,10 @@ export const usePostActions = () => {
       })
 
       if (response.ok) {
-        queryClient.setQueryData(['posts', boardId], (oldData: Post[]) => {
+        queryClient.setQueryData(['posts', boardId], (oldData: Post[] | undefined) => {
+          // If oldData is undefined
+          if (!oldData) return [];
+
           // Use the previously mapped `updatedPosts` logic
           const updatedPosts = oldData?.map((item: Post) =>
             item._id === postId
@@ -66,7 +62,10 @@ export const usePostActions = () => {
 
       if (response.ok) {
         // Increment commentCount in post by 1 in posts useQuery cache
-        queryClient.setQueryData(['posts', boardId], (oldData: Post[]) => {
+        queryClient.setQueryData(['posts', boardId], (oldData: Post[] | undefined) => {
+          // If oldData is undefined
+          if (!oldData) return [];
+
           // Use the previously mapped `updatedPosts` logic
           const updatedPosts = oldData?.map((item: Post) =>
             item._id === postId
@@ -98,7 +97,10 @@ export const usePostActions = () => {
       
       if (response.ok) {
         // Decrement commentCount in post by 1 in store
-        queryClient.setQueryData(['posts', boardId], (oldData: Post[]) => {
+        queryClient.setQueryData(['posts', boardId], (oldData: Post[] | undefined) => {
+          // If oldData is undefined
+          if (!oldData) return [];
+
           // Use the previously mapped `updatedPosts` logic
           const updatedPosts = oldData?.map((item: Post) =>
             item._id === postId
@@ -122,11 +124,30 @@ export const usePostActions = () => {
     }
   }
 
-  return { 
+  const changePostStatus = (boardId: string, postId: string, value: string) => {
+    // Access the cached posts using the query key ['posts', boardId]
+    queryClient.setQueryData(['posts', boardId], (oldPosts: Post[] | undefined): Post[] => {
+      if (!oldPosts) return []; // If no posts exist, return as is
+
+      // Map over the posts and update the specific post's status
+      const updatedPosts = oldPosts.map((post: Post) => {
+        if (post._id === postId) {
+          // Update the post's status
+          return { ...post, status: value };
+        }
+        return post; // If it's not the target post, leave it unchanged
+      });
+
+      // Return the updated posts array
+      return updatedPosts;
+    });
+  }
+
+  return {
+    changePostStatus,
     isDeleting, 
     handleDelete, 
-    changePostStatus,
     incrementCommentCount,
-    decrementCommentCount
+    decrementCommentCount,
   }
 }

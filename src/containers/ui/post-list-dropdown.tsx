@@ -10,13 +10,14 @@ import {
   } from '@heroicons/react/24/outline'
 import { usePostActions } from '@/hooks/use-post-actions'
 
-interface PostListDropdownProps {
+type PostListDropdownProps = {
   postId: string
   status: string | null
+  boardId: string
 }
 
 const PostListDropdown: React.FC<PostListDropdownProps> = ({
-  postId, status
+  postId, status, boardId
 }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedValue, setSelectedValue] = useState(status || 'New')
@@ -31,16 +32,17 @@ const PostListDropdown: React.FC<PostListDropdownProps> = ({
   const handleSelect = async (value: string) => {
     setSelectedValue(value) // Set state status
     setIsOpen(false) // Close dropdown
-    changePostStatus(postId, value) // Change status in store
 
     // Change post status database
-    const url = `${process.env.BASE_URL}/${ENV.ENDPOINTS.POST.UPDATE_STATUS(postId, value)}`
+    const url = `${process.env.NEXT_PUBLIC_BASE_URL}/${ENV.ENDPOINTS.POST.UPDATE_STATUS(postId, value)}`
     const response = await fetch(url, {
       method: 'PATCH'
     })
 
     if (!response.ok) {
       addNotification('An error occured. Try again later.')
+    } else {
+      changePostStatus(boardId, postId, value) // Change status in store
     }
   }
 

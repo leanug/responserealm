@@ -1,7 +1,7 @@
-//src/containers/posts/post-list-dashboard.tsx
 'use client'
 
 import Link from 'next/link'
+import { useParams } from 'next/navigation'
 
 import { 
   ChatBubbleLeftIcon, 
@@ -9,28 +9,26 @@ import {
 } from '@heroicons/react/24/outline'
 
 import { Post } from '@/types/post'
-import { usePosts } from '@/hooks/use-posts'
 import { LoadingIndicator } from '@/components'
+import { useFetchPosts } from '@/hooks'
 import PostItem from '@/containers/posts/post-item'
 import PostHeader from '@/containers/posts/post-item/post-header'
 import DeletePostBtn from '@/containers/ui/delete-post-btn'
 import PostListDropdown from '@/containers/ui/post-list-dropdown'
 
-interface PostListDashboardProps {
-  boardId: string | null
-  boardSlug: string | null
-}
+const PostListDashboard = () => {
+  const params = useParams<{ boardSlug: string, boardId: string }>()
+  const {boardSlug, boardId} = params
 
-const PostListDashboard: React.FC<PostListDashboardProps> = ({
-  boardId, 
-  boardSlug
-}) => {
-  const {posts, loading} = usePosts({boardId})
-      
+  const {
+    data: posts, 
+    isLoading, 
+  } = useFetchPosts(boardId)
+
   return (
     <>
       {
-        loading 
+        isLoading 
           ? <div className="p-2.5 md:p-6"><LoadingIndicator /></div> 
           : null
       }
@@ -69,6 +67,7 @@ const PostListDashboard: React.FC<PostListDashboardProps> = ({
                   <PostListDropdown
                     postId={_id}
                     status={status}
+                    boardId={boardId}
                   />
                 }
               />

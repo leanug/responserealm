@@ -16,7 +16,6 @@ const useLikedPostActions = () => {
   const params = useParams<{ boardSlug: string }>()
   const {boardSlug} = params
   
-  
   const { addNotification } = useNotificationStore()
 
   const queryClient = useQueryClient()

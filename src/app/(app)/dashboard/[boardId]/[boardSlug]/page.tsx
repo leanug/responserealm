@@ -6,23 +6,15 @@ import PublicLink from "@/containers/dashboard/board/board-public-link"
 import PageHeader from "@/containers/layout/page-header"
 import DeleteBoardBtn from "@/containers/ui/delete-board-btn"
 import GoBackBtn from "@/components/ui/buttons/go-back"
-import { getBoardBySlug } from "@/server/get-board-by-slug"
+import BoardName from "@/containers/boards/board-name"
 import { auth } from "@/auth"
 
-interface Params {
-  boardSlug: string
-}
-
-async function FeedbackPage({params}: {params: Params}) {
-  const {boardSlug} = params
-
+async function FeedbackPage() {
   const session = await auth()
 
   if (!session) {
     redirect("/")
   }
-
-  const board = await getBoardBySlug(boardSlug)
   
   return (
     <ContentWrapper>
@@ -30,21 +22,16 @@ async function FeedbackPage({params}: {params: Params}) {
         <PageHeader>
           <div className="flex flex-row gap-3 items-center">
             <GoBackBtn />
-            <h1 className="font-bold text-xl">
-              {board?.name || 'Board name'}
-            </h1>
-            <DeleteBoardBtn boardId={board?._id || ''} />
+            <BoardName />
+            <DeleteBoardBtn />
           </div>
         </PageHeader>
       </div>
       <div className="bg-base-100 rounded-lg">
         <div className="p-6 pt-3 border-b">
-          <PublicLink id={board?._id || ''} slug={board?.slug || ''} />
+          <PublicLink />
         </div>
-        <PostListDashboard 
-          boardSlug={boardSlug || ''} 
-          boardId={board?._id || ''} 
-        />
+        <PostListDashboard />
       </div>
     </ContentWrapper>
   )

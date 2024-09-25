@@ -1,5 +1,6 @@
 // Import mongoose
 import mongoose, { Schema, models } from 'mongoose'
+import { generateSlug } from '@/utils'
 
 export interface BoardDocument {
   _id: string
@@ -11,16 +12,6 @@ export interface BoardDocument {
   createdAt: Date
   updatedAt: Date
 }
-
-// Function to generate URL-friendly slug
-const generateSlug = (name: string) => {
-  const randomNumber = Math.floor(Math.random() * 100000000) // Generate an 8-digit random number
-  const urlFriendlyName = name
-    .toLowerCase()
-    .replace(/[^a-zA-Z0-9]+/g, '-') // Replace non-alphanumeric characters with hyphens
-    .replace(/^-+|-+$/g, ''); // Remove leading or trailing hyphens
-  return `${randomNumber}-${urlFriendlyName}`
-};
 
 const boardSchema = new Schema(
   {

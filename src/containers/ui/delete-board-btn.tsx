@@ -1,11 +1,15 @@
 'use client'
 
+import { useParams } from 'next/navigation'
+
 import { useBoardActions } from '@/hooks'
 import { LoadingIndicator } from '@/components'
 import { TrashIcon } from '@heroicons/react/24/outline'
 
-function DeleteBoardBtn({boardId}: {boardId: string}) {
+function DeleteBoardBtn() {
   const {handleDelete, isDeleting} = useBoardActions()
+  const params = useParams<{ boardId: string }>()
+  const {boardId} = params
 
   const handleShowConfirm = () => {
     if (window.confirm('Are you sure you want to delete this board?')) {

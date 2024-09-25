@@ -2,6 +2,7 @@
 
 import React, { useRef } from 'react'
 import Link from "next/link"
+import { useParams } from 'next/navigation'
 
 import { 
   DocumentDuplicateIcon,
@@ -9,14 +10,12 @@ import {
   InformationCircleIcon
 } from "@heroicons/react/24/outline"
 
-type PublicLinkProps = {
-  id: string
-  slug: string
-}
+const PublicLink = () => {
+  const params = useParams<{ boardSlug: string, boardId: string }>()
+  const {boardSlug, boardId} = params
 
-const PublicLink: React.FC<PublicLinkProps> = ({slug, id}) => {
   const inputRef = useRef<HTMLInputElement>(null)
-  const link = process.env.NEXT_PUBLIC_BASE_URL + '/b/' + id + '/' + slug
+  const link = process.env.NEXT_PUBLIC_BASE_URL + '/b/' + boardId + '/' + boardSlug
 
   const handleCopy = () => {
     if (inputRef.current) {
