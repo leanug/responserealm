@@ -15,17 +15,17 @@ export interface BoardDocument {
 
 const boardSchema = new Schema(
   {
-    slug: {
-      type: String,
-      required: true,
-      unique: true,
-      default: () => generateSlug(''), // Set a default value using the generateSlug function
-    },
     name: {
       type: String,
       required: [true, "Fullname is required"],
       minLength: [3, "fullname must be at least 3 characters"],
       maxLength: [50, "fullname must be at most 50 characters"],
+    },
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+      default: () => generateSlug(''),
     },
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -35,14 +35,6 @@ const boardSchema = new Schema(
   },
   { timestamps: true },
 )
-
-// Pre-save hook to generate slug from name
-boardSchema.pre('save', function (next) {
-  if (this.isModified('name')) {
-    this.slug = generateSlug(this.name)
-  }
-  next()
-})
 
 // Create and export the Board model
 const Board = models.Board || mongoose.model<BoardDocument>('Board', boardSchema)

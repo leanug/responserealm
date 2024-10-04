@@ -1,10 +1,14 @@
-// src/components/notification/notification-item.tsx
 'use client'
 
 import { InformationCircleIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import React, { useEffect } from 'react'
 
-export const Notification: React.FC<any> = ({ id, message, type, removeNotification }) => {
+export const Notification: React.FC<any> = ({
+  id, 
+  message, 
+  type, 
+  removeNotification 
+}) => {
   let alertModifier
 
   if (type === 'error') {
@@ -32,13 +36,13 @@ export const Notification: React.FC<any> = ({ id, message, type, removeNotificat
   }
 
   return (
-    <div role="alert" className="alert bg-base-100 shadow-lg">
-      <InformationCircleIcon className="w-6 h-6 stroke-info" />
+    <div role="alert" className={`alert shadow-lg ${alertModifier}`}>
+      <InformationCircleIcon className="w-6 h-6" />
       <div>
         <span>{message}</span>
       </div>
-      <button className="btn btn-sm" onClick={handleClose}>
-        <XMarkIcon className="w-5 h-5" />
+      <button className="btn btn-sm btn-ghost" onClick={handleClose}>
+        <XMarkIcon className="w-6 h-6" />
       </button>
     </div>
   )

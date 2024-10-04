@@ -41,16 +41,23 @@ function NewBoardForm() {
 
   // Define the mutation hook
   const { mutate, isLoading } = useMutation({
-    mutationFn: (values: FormData) =>
-      fetch(ENV.ENDPOINTS.BOARD.CREATE, {
+    mutationFn: async (values: FormData) => {
+      const response = await fetch(ENV.ENDPOINTS.BOARD.CREATE, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(values),
       })
-        .then((response) => response.json())
-        .then((result) => result.board),
+
+      if (!response.ok) {
+        const errorData = await response.json()
+        throw new Error (errorData.message)
+      }
+      
+      const json = await response.json()
+      return json.board
+    },
     onSuccess: (newBoard) => {
       const existingBoards: Board[] = queryClient.getQueryData(['boards', userId]) || [];
       // Update the cache manually by adding the new board to the existing boards
@@ -58,11 +65,19 @@ function NewBoardForm() {
       setInputValue('')
       queryClient.setQueryData(['boards', userId], updatedBoards)
     },
-    onError: () => {
-      addNotification(
-        'An error occurred while creating your board. Please try again.', 
-        'error'
-      )
+    onError: (error: any) => {
+      // Initialize error message
+      let errorMsg: string;
+  
+      // Check if the error has a message and code
+      if (error && typeof error === 'object') {
+          errorMsg = error.message || 'An unexpected error occurred. Please try again.';
+      } else {
+          errorMsg = error || 'An unexpected error occurred. Please try again.' // Fallback for unexpected errors
+      }
+  
+      // Show the notification
+      addNotification(errorMsg, 'error');
     },
   })
 
@@ -80,20 +95,20 @@ function NewBoardForm() {
 
   return (
     <div className="w-full">
-      {/* Login form */}
+      {/* New board form */}
       <Form onSubmit={handleSubmit(onSubmit)}>
       <FormField htmlFor="name">
-          <FormInput 
-            type="text" 
-            id="name" 
-            register={register} 
-            name="name" 
-            errors={errors}
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            placeholder="Board name"
-          />
-          {errors.name && <FormError>{errors.name.message}</FormError>}
+        <FormInput 
+          type="text" 
+          id="name" 
+          register={register} 
+          name="name" 
+          errors={errors}
+          value={inputValue}
+          onChange={(e) => setInputValue(e.target.value)}
+          placeholder="Board name"
+        />
+        {errors.name && <FormError>{errors.name.message}</FormError>}
         </FormField>
         <Button 
           loading={isLoading} 

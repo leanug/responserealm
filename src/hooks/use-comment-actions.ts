@@ -1,7 +1,5 @@
-// src/hooks/use-comment-actions.ts
 'use client'
 
-import { useCommentsStore } from '@/store/use-comments-store'
 import { useNotificationStore } from '@/store/use-notification-store'
 import { deleteCommentById } from '@/server/delete-comment-by-id'
 import { useState } from 'react'

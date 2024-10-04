@@ -2,22 +2,20 @@ import type { Metadata } from "next"
 import "../globals.css"
 import { Inter } from "next/font/google"
 
-const inter = Inter({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] })
 
 import SessionWrapper from "@/containers/session/session-wrapper"
 import LoggedFooter from "@/components/layout/logged-footer"
 import LoginModal from "@/components/ui/modals/login-modal"
 import PostModal from "@/components/ui/modals/post-modal"
 import ThemeWrapper from "@/containers/layout/theme-wrapper"
-import { Notification } from "@/components/notification"
 import QueryClientProviderWrapper from '@/components/providers/query-client-provider-wrapper'
+import { siteConfig } from "@/config/site"
+import { Notification } from "@/components/notification"
 
 export const metadata: Metadata = {
-  title: "FeedbackRealm",
-  description: `
-    Gather and prioritize user feedback to enhance your 
-    web app with features that matter most to your audience.
-  `,
+  title: siteConfig.title,
+  description: siteConfig.description,
 }
 
 export default async function RootLayout({

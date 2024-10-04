@@ -1,19 +1,19 @@
-//app/api/board/create/route.ts
-
 import { NextResponse } from "next/server"
 
-import {auth} from '@/auth'
+import BoardFormSchema from "@/validators/board"
 import Board from "@/models/board"
+import { auth } from '@/auth'
 import { connectDB } from '@/server/mongodb'
 import { ENV } from "@/utils/constants"
-import BoardFormSchema from "@/validators/board"
 import { sanitizeString } from "@/utils/sanitize-string"
+import { generateSlug } from "@/utils"
 
-interface SafeData {
+type SafeData = {
   user: {
-    _id: string;
+    _id: string
   };
-  name: string;
+  name: string
+  slug: string
 }
 
 export async function POST(request: Request) {
@@ -23,15 +23,13 @@ export async function POST(request: Request) {
       { status: 405 }
     )
   }
-
-  // Get session user ID
-  const session = await auth()
   
- // If there's no session, return a 401 Unauthorized response
- if (!session) {
-  return NextResponse.json(
-    { success: false, message: 'Unauthorized' }, 
-    { status: 401 }
+  const session = await auth()
+  // If there's no session, return a 401 Unauthorized response
+  if (!session) {
+    return NextResponse.json(
+      { success: false, message: 'Unauthorized' }, 
+      { status: 401 }
   )}
 
   try {
@@ -50,12 +48,30 @@ export async function POST(request: Request) {
         { status: 400 }
       )
     }
+
+    const name = sanitizeString(data?.name || '')
+    const slug = generateSlug(name)
+
+    // Check if the slug already exists in the database
+    const existingBoard = await Board.findOne({ slug })
     
+    if (existingBoard) {
+      // Return an error if the slug is already in use
+      return NextResponse.json({ 
+        success: false,
+        message: 'A Board with this name already exists', 
+        code: '11000'
+      }, { 
+        status: 400 
+      });
+    }
+
     const safeData: SafeData = {
       user: {
-        _id: session?.user?.id || '',  // Provide a fallback value
+        _id: session?.user?.id || '', 
       },
-      name: sanitizeString(data?.name || ''),  // Provide a fallback value
+      name,
+      slug
     };
 
     // Create a new user in the database
@@ -67,7 +83,7 @@ export async function POST(request: Request) {
       board: newBoard
     }, { 
       status: 201 
-    });
+    })
   } catch (error) {
     return NextResponse.json(
       ENV.IS_DEV 
