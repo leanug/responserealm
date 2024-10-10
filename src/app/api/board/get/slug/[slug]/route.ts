@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server"
 
 import { connectDB } from '@/server/mongodb'
+import { isValidSlug } from '@/utils/is-valid-slug'
 
 import Board from "@/models/board"
-import { isValidSlug } from "@/utils/is-valid-slug"
 import { ENV } from "@/utils/constants"
 
-interface Params {
+type Params = {
   slug: string
 }
 
@@ -17,16 +17,15 @@ export async function GET(req: Request, {params}: {params: Params}) {
   
   const {slug} = params
   
-  if (!isValidSlug(slug)) {
-    return NextResponse.json(
-      { message: 'Invalid slug provided' }, 
-      { status: 400 })
+  // Validate userId
+  if (typeof slug !== 'string' || !isValidSlug(slug)) {
+    return NextResponse.json({ message: 'Something went wrong. Please try again later.' }, { status: 500 })
   }
   
   try {
     // Connect to MongoDB
     await connectDB()
-
+    
     const board = await Board.find({ slug })
     
     return NextResponse.json({ 

@@ -1,24 +1,15 @@
 'use client'
 
-import { useParams } from 'next/navigation'
-import { useQuery } from 'react-query'
-
-import { getBoardBySlug } from '@/server'
 import { LoadingIndicator } from '@/components'
+import { useFetchBoard } from '@/hooks'
 
 function BoardName() {
-  const params = useParams<{ boardSlug: string }>()
-  const {boardSlug} = params
-
   const {
     data: board, 
     isLoading, 
     error
-  } = useQuery(
-    ['board', boardSlug],
-    () => getBoardBySlug(boardSlug)
-  )
-
+  } = useFetchBoard()
+  
   return (
     <>
       {isLoading && <LoadingIndicator />}

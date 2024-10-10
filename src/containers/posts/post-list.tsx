@@ -14,15 +14,17 @@ import { Post } from '@/types/post'
 import { usePostFilterStore } from '@/store'
 import { postsFilter } from '@/utils'
 import { LoadingIndicator } from '@/components'
-import { useFetchLikedPosts } from '@/hooks'
-import { useFetchPosts } from '@/hooks/use-fetch-posts'
+import { useFetchLikedPosts, useFetchBoard, useFetchPosts } from '@/hooks'
 
 const PostList = () => {
-  const params = useParams<{ boardSlug: string, boardId: string }>()
-  const {boardSlug, boardId} = params
+  const params = useParams<{ boardSlug: string }>()
+  const {boardSlug} = params
   const {statusFilter} = usePostFilterStore()
   
-  // get liked posts
+  const {
+    data: board,
+  } = useFetchBoard()
+
   const {
     likedPostsMap,
     isLoading: islikedPostsMapLoading,
@@ -32,9 +34,8 @@ const PostList = () => {
     data: posts, 
     isLoading, 
     error: postsFetchError
-  } = useFetchPosts(boardId)
-
-  // Filter posts based on the selected status filter
+  } = useFetchPosts(board?._id || '')
+  
   const filteredPosts = postsFilter(posts || [], statusFilter)
 
   if (isLoading)
@@ -67,7 +68,7 @@ const PostList = () => {
               postActionBtn={
                 <PostComments  
                   postId={_id}
-                  boardId={boardId}
+                  boardId={board?._id || ''}
                   boardSlug={boardSlug}
                   commentCount={commentCount} 
                 />

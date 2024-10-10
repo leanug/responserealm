@@ -2,13 +2,15 @@ import { ENV } from '@/utils/constants'
 import { Board } from '@/types/board'
 
 /**
- * Fetches a board by its slug from the API.
+ * Fetches a board by its id from the API.
  * 
  * @param slug - The slug of the board to fetch.
  * @returns The board data if successful, or an empty array if no data is found.
  */
-export async function getBoardBySlug(slug: string): Promise<Board | null> {
-  const url = `${process.env.NEXT_PUBLIC_BASE_URL}/${ENV.ENDPOINTS.BOARD.GET_BY_SLUG(slug)}`
+export async function fetchBoard(slug: string): Promise<Board | null> {
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
+  const endpoint = ENV.ENDPOINTS.BOARD.GET_BY_SLUG(slug)
+  const url = `${baseUrl}/${endpoint}`
   
   const response = await fetch(url, {cache: 'no-store'})
   

@@ -9,18 +9,18 @@ import BoardName from "@/containers/boards/board-name"
 export default async function Page() {
   return (
     <ContentWrapper>
-        <PageHeader>
-          <BoardName />
-        </PageHeader>
-        <div className="mx-auto mt-3">
-          <div className="bg-base-100 rounded-lg border">
-            <PostHeader >
-              <PostStatusFilter />
-              <NewPostBtn />
-            </PostHeader>
-            <PostList />
-          </div>
+      <PageHeader>
+        <BoardName />
+      </PageHeader>
+      <div className="mx-auto mt-3">
+        <div className="bg-base-100 rounded-lg border">
+          <PostHeader >
+            <PostStatusFilter />
+            <NewPostBtn />
+          </PostHeader>
+          <PostList />
         </div>
+      </div>
     </ContentWrapper>
   )
 }

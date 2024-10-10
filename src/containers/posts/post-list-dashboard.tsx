@@ -10,20 +10,23 @@ import {
 
 import { Post } from '@/types/post'
 import { LoadingIndicator } from '@/components'
-import { useFetchPosts } from '@/hooks'
+import { useFetchBoard, useFetchPosts } from '@/hooks'
 import PostItem from '@/containers/posts/post-item'
 import PostHeader from '@/containers/posts/post-item/post-header'
 import DeletePostBtn from '@/containers/ui/delete-post-btn'
 import PostListDropdown from '@/containers/ui/post-list-dropdown'
 
 const PostListDashboard = () => {
-  const params = useParams<{ boardSlug: string, boardId: string }>()
-  const {boardSlug, boardId} = params
+  const {
+    data: board,
+  } = useFetchBoard()
+
+  const boardSlug = board?.slug || ''
 
   const {
     data: posts, 
     isLoading, 
-  } = useFetchPosts(boardId)
+  } = useFetchPosts(board?._id || '')
 
   return (
     <>
@@ -50,7 +53,7 @@ const PostListDashboard = () => {
                 postData={
                   <div className="flex flex-row gap-3 items-center">
                     <Link 
-                      href={`/dashboard/${boardSlug}/p/${slug}`} 
+                      href={`/dashboard/p/${_id}`} 
                       className="btn btn-sm btn-ghost"
                     >
                       <ChatBubbleLeftIcon className="w-5 h-5" />
@@ -67,7 +70,7 @@ const PostListDashboard = () => {
                   <PostListDropdown
                     postId={_id}
                     status={status}
-                    boardId={boardId}
+                    boardSlug={boardSlug}
                   />
                 }
               />

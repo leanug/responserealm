@@ -1,5 +1,3 @@
-// src/app/(app)/dashboard/page.tsx
-
 import { redirect } from "next/navigation"
 
 import { auth } from "@/auth"

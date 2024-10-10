@@ -1,13 +1,11 @@
 'use client'
-
-import { useParams } from 'next/navigation'
 import { useQuery } from 'react-query'
-
-import CommentItem from './comment-item'
-import ErrorDisplay from '@/components/ui/error-display'
 import { Comment } from '@/types/comment'
+import CommentItem from './comment-item'
 import { LoadingIndicator } from '@/components/ui/loading-indicator'
+import { useParams } from 'next/navigation'
 import { fetchComments } from '@/server/fetch-comments'
+import ErrorDisplay from '@/components/ui/error-display'
 
 const CommentList = () => {
   const params = useParams<{ postId: string }>()

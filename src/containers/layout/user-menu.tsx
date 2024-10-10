@@ -1,15 +1,15 @@
 'use client'
 
-import { useParams } from 'next/navigation'
-import { useQuery } from 'react-query'
 import React, { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import { useSession } from 'next-auth/react'
+
 import { ArrowLeftStartOnRectangleIcon } from '@heroicons/react/24/solid'
 import { Bars4Icon, ClipboardDocumentCheckIcon } from '@heroicons/react/24/outline'
-import { getBoardBySlug } from '@/server'
-import { useSession } from 'next-auth/react'
+
 import { LoadingIndicator } from '@/components'
+import { useFetchBoard } from '@/hooks'
 
 interface UserMenuProps {
   userName: string
@@ -26,12 +26,7 @@ const UserMenu: React.FC<UserMenuProps> = ({ userName, userImage, signOut }) => 
     setIsOpen(!isOpen)
   }
 
-  const params = useParams<{ boardSlug: string }>()
-  const {boardSlug} = params
-
-  const { data, isLoading } = useQuery('boardData', () => getBoardBySlug(boardSlug), {
-    enabled: !!boardSlug, // Ensure the query only runs if boardSlug is available
-  })
+  const { data, isLoading } = useFetchBoard()
   const userBoardId = data ? data.user : null
 
   useEffect(() => {

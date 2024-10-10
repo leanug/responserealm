@@ -1,9 +1,9 @@
 'use client'
 
-import { useQuery } from 'react-query';
+import { useQuery } from 'react-query'
+import { useParams } from 'next/navigation'
 
-import { getBoardBySlug } from '@/server'
-import { useParams } from 'next/navigation';
+import { fetchBoard } from '@/server'
 
 export const useFetchBoard = () => {
   const params = useParams<{ boardSlug: string }>()
@@ -11,11 +11,9 @@ export const useFetchBoard = () => {
 
   return useQuery(
     ['board', boardSlug],
-    () => getBoardBySlug(boardSlug),
+    () => fetchBoard(boardSlug),
     {
       enabled: !!boardSlug
     }
-
   )
-
 }

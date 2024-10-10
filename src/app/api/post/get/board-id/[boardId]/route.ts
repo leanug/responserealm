@@ -25,7 +25,7 @@ export async function GET(req: Request, {params}: {params: Params}) {
   }
 
   const {boardId} = params
-
+  
   // Validate userId
   if (typeof boardId !== 'string' || !mongoose.isValidObjectId(boardId)) {
     return NextResponse.json(
@@ -42,7 +42,7 @@ export async function GET(req: Request, {params}: {params: Params}) {
     const posts = await Post
       .find({ board: boardId })
       .sort({ likes: -1 })
-
+    
     // Return a success response with the newly created user
     return NextResponse.json({ 
       message: 'Posts retrieved successfully.', 
