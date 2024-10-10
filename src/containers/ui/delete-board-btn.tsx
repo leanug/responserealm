@@ -1,23 +1,25 @@
 'use client'
 
-import { useParams } from 'next/navigation'
-
-import { useBoardActions } from '@/hooks'
-import { LoadingIndicator } from '@/components'
 import { TrashIcon } from '@heroicons/react/24/outline'
+
+import { useBoardActions, useFetchBoard } from '@/hooks'
+import { LoadingIndicator } from '@/components'
 
 function DeleteBoardBtn() {
   const {handleDelete, isDeleting} = useBoardActions()
-  const params = useParams<{ boardId: string }>()
-  const {boardId} = params
+
+  const {
+    data: board, 
+  } = useFetchBoard()
 
   const handleShowConfirm = () => {
     if (window.confirm('Are you sure you want to delete this board?')) {
-      handleDelete(boardId || '')
+      handleDelete(board?._id || '')
     }
   }
 
   return (
+    board &&
     <div 
       className="tooltip tooltip-right" 
       data-tip="Delete board"

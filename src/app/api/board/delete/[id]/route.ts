@@ -5,7 +5,7 @@ import Board from '@/models/board' // Adjust the import path according to your s
 import { connectDB } from '@/server/mongodb'
 import { ENV } from '@/utils/constants'
 
-interface Params {
+type Params = {
   id: string
 }
 

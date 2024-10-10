@@ -1,4 +1,4 @@
-export * from './delete-board-by-id'
+export * from './delete-board'
 export * from './delete-comment-by-id'
 export * from './fetch-board'
 export * from './get-boards-by-user-id'

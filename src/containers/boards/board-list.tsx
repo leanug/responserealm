@@ -15,7 +15,6 @@ const BoardList = ({ boards }: BoardListProps) => (
           <BoardItem 
             name={item.name} 
             slug={item.slug} 
-            boardId={item._id}
           />
         </li>
       )
