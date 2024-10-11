@@ -6,14 +6,14 @@ import { useParams } from 'next/navigation'
 import { fetchPost } from '@/server'
 
 export const useFetchPost = () => {
-  const params = useParams<{ postSlug: string }>()
-  const {postSlug} = params
+  const params = useParams<{ postId: string }>()
+  const {postId} = params
 
   return useQuery(
-    ['post', postSlug],
-    () => fetchPost({slug: postSlug}),
+    ['post', postId],
+    () => fetchPost({id: postId}),
     {
-      enabled: !!postSlug
+      enabled: !!postId
     }
 
   )

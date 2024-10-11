@@ -2,7 +2,7 @@
 
 import { useParams } from "next/navigation"
 
-import { useFetchLikedPosts, useFetchPosts } from "@/hooks"
+import { useFetchBoard, useFetchLikedPosts, useFetchPosts } from "@/hooks"
 import { LoadingIndicator } from "@/components"
 import { Post } from "@/types"
 import UserAvatar from '@/components/ui/avatar/user-avatar'
@@ -14,7 +14,7 @@ import ErrorDisplay from "@/components/ui/error-display"
 
 function PostItemContainer() {
   const params = useParams()
-  const {postId, boardId} = params
+  const {postId} = params
 
   // Get liked posts
   const {
@@ -22,12 +22,13 @@ function PostItemContainer() {
     isLoading: islikedPostsMapLoading,
   } = useFetchLikedPosts()
 
-  const boardIdParam = Array.isArray(boardId) ? boardId[0] : boardId;
+  const {data: board} = useFetchBoard()
+
   const {
     data: posts, 
     isLoading: isPostsLoading, 
     isError
-  } = useFetchPosts(boardIdParam)
+  } = useFetchPosts(board?._id || '')
   
   let isLiked: boolean = false
   let likedPostId: string = ''

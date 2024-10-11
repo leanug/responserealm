@@ -21,8 +21,6 @@ const PostListDashboard = () => {
     data: board,
   } = useFetchBoard()
 
-  const boardSlug = board?.slug || ''
-
   const {
     data: posts, 
     isLoading, 
@@ -70,7 +68,7 @@ const PostListDashboard = () => {
                   <PostListDropdown
                     postId={_id}
                     status={status}
-                    boardSlug={boardSlug}
+                    boardId={board?._id || ''}
                   />
                 }
               />

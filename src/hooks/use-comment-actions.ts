@@ -5,6 +5,7 @@ import { deleteCommentById } from '@/server/delete-comment-by-id'
 import { useState } from 'react'
 import { usePostActions } from './use-post-actions'
 import { useQueryClient } from 'react-query'
+import { Comment } from '@/types'
 
 export const useCommentActions = () => {
   const [isProcessing, setIsProcessing] = useState(false)

@@ -68,7 +68,6 @@ const PostList = () => {
               postActionBtn={
                 <PostComments  
                   postId={_id}
-                  boardId={board?._id || ''}
                   boardSlug={boardSlug}
                   commentCount={commentCount} 
                 />
